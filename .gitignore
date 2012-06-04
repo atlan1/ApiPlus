@@ -1,0 +1,8 @@
+# Eclipse stuff
+/ApiPlus/.classpath
+/ApiPlus/.project
+/ApiPlus/.settings
+
+/ApiPlus/lib
+/ApiPlus/bin
+/ApiPlus/target
