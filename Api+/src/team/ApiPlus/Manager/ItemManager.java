@@ -3,8 +3,8 @@ package team.ApiPlus.Manager;
 import java.util.ArrayList;
 import java.util.List;
 
-import team.ApiPlus.ApiPlus;
 import team.ApiPlus.Item;
+import team.ApiPlus.Util.Utils;
 
 /**
  * API+ Custom Item Manager.
@@ -17,7 +17,7 @@ public class ItemManager {
 	private List<Item> list = new ArrayList<Item>();
 	
 	protected ItemManager() {
-		if(instance != null) ApiPlus.info("Cannot have multiple Instances of the Item Manager.");
+		if(instance != null) Utils.info("Cannot have multiple Instances of the Item Manager.");
 	}
 	
 	/**
