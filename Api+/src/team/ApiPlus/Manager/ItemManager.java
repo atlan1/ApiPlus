@@ -16,7 +16,7 @@ public class ItemManager {
 	private static ItemManager instance;
 	private List<Item> list = new ArrayList<Item>();
 	
-	protected ItemManager() {
+	private ItemManager() {
 		if(instance != null) Utils.info("Cannot have multiple Instances of the Item Manager.");
 	}
 	

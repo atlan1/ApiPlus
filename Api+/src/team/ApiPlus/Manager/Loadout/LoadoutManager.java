@@ -1,8 +1,10 @@
 package team.ApiPlus.Manager.Loadout;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import team.ApiPlus.ApiPlus;
 import team.ApiPlus.Util.Utils;
 
 /**
@@ -15,7 +17,7 @@ public class LoadoutManager {
 	private static LoadoutManager instance;
 	private List<Loadout> list = new ArrayList<Loadout>();
 	
-	protected LoadoutManager() {
+	private LoadoutManager() {
 		if(instance != null) Utils.info("Cannot have multiple Instances of the Loadout Manager.");
 	}
 	
@@ -63,6 +65,23 @@ public class LoadoutManager {
 			if(l.getName().equalsIgnoreCase(name)) return l;
 		}
 		return null;
+	}
+	
+	/**
+	 * Method used to read Loadouts into Manager.
+	 */
+	public void read() {
+		list.clear();
+		File main = new File(ApiPlus.getInstance().getDataFolder() + File.separator + "Loadouts");
+		if(!main.exists()) main.mkdir();
+		else {
+			File[] l = main.listFiles();
+			for(File f : l) {
+				if(f.toString().endsWith(".zip")) {
+					list.add(Loadout.create(f));
+				}
+			}
+		}
 	}
 	
 	/**
