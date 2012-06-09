@@ -91,7 +91,7 @@ public class ConfigManager {
 	}
 	
 	/**
-	 * Method used for cehcking if ConfigManager has File as FileCOnfiguration.
+	 * Method used for checking if ConfigManager has File as FileConfiguration.
 	 * @param f File to check.
 	 * @return boolean True if contains, False if not.
 	 */
@@ -103,6 +103,23 @@ public class ConfigManager {
 		} catch (Exception e) {
 			Utils.debug(e);
 			return false;
+		}
+	}
+	
+	/**
+	 * Method used for getting FileConfiguration from ConfigManager.
+	 * @param f File to retrieve.
+	 * @return FileConfiguration FileConfiguration found, null if none found.
+	 */
+	public FileConfiguration get(File f) {
+		try {
+			FileConfiguration con = new YamlConfiguration();
+			con.load(f);
+			if(check(con)) return configs.get(configs.indexOf(con));
+			else return null;
+		} catch (Exception e) {
+			Utils.debug(e);
+			return null;
 		}
 	}
 	

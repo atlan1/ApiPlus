@@ -1,13 +1,18 @@
 package team.ApiPlus;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import team.ApiPlus.Manager.ConfigManager;
 import team.ApiPlus.Manager.ItemManager;
 import team.ApiPlus.Manager.TypeManager;
 import team.ApiPlus.Manager.Loadout.LoadoutManager;
+import team.ApiPlus.Util.FileUtil;
 import team.ApiPlus.Util.Utils;
 
 @SuppressWarnings("unused")
@@ -18,6 +23,7 @@ public class ApiPlus extends JavaPlugin {
 	private ItemManager iManager;
 	private LoadoutManager lManager;
 	private TypeManager tManager;
+	private ConfigManager cManager;
 	public static Map<String,Plugin> hooks = new HashMap<String,Plugin>();
 	
 	@Override
@@ -27,10 +33,11 @@ public class ApiPlus extends JavaPlugin {
 		iManager = ItemManager.getInstance();
 		lManager = LoadoutManager.getInstance();
 		tManager = TypeManager.getInstance();
+		cManager = ConfigManager.getInstance();
 		lManager.loadAll();
 		Utils.debug(lManager.read());
 		hook();
-		
+		loadGeneral();
 		Utils.info(String.format("API+ Version:%s Enabled.", version));
 	}
 	
@@ -46,10 +53,15 @@ public class ApiPlus extends JavaPlugin {
 			Utils.info("Hooked into FurnaceAPI");
 		}
 	}
-
-	@Override
-	public void onDisable() {
-		
+	
+	private void loadGeneral() {
+		File general = new File(this.getDataFolder().getPath() + File.separator + "general.yml");
+		if(!general.exists()) FileUtil.copy(this.getResource("genearl.yml"), general);
+		cManager.add(general);
+		FileConfiguration con = cManager.get(general);
+		if(con != null) {
+			Utils.setDebug(Boolean.valueOf(con.getString("debug","false")));
+		} else return;
 	}
 	
 	/**
