@@ -9,6 +9,11 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import team.ApiPlus.Util.Utils;
 
+/**
+ * Configuration Manager for API+.
+ * @author SirTyler (Tyler Martin)
+ * @version 1.0
+ */
 public class ConfigManager {
 	private static ConfigManager instance;
 	private List<FileConfiguration> configs = new ArrayList<FileConfiguration>();
