@@ -32,7 +32,7 @@ public class Utils {
 	 * Method used for writing a Info message to the Logger.
 	 * @param message String message to write.
 	 */
-	public static void info(String message) {
+	public synchronized static void info(String message) {
 		Bukkit.getLogger().log(Level.INFO, String.format("[API+] %s", message));
 	}
 	
@@ -40,7 +40,7 @@ public class Utils {
 	 * Method used for writing multiple Info messages to the Logger.
 	 * @param message String Array of messages to write.
 	 */
-	public static void info(String[] message) {
+	public synchronized static void info(String[] message) {
 		for(String s : message) {
 			Bukkit.getLogger().log(Level.INFO, String.format("[API+] %s", s));
 		}
@@ -50,7 +50,7 @@ public class Utils {
 	 * Method used for writing a Warning message to the Logger.
 	 * @param message String message to write.
 	 */
-	public static void warning(String message) {
+	public synchronized static void warning(String message) {
 		Bukkit.getLogger().log(Level.WARNING, String.format("[API+] %s", message));
 	}
 	
@@ -58,7 +58,7 @@ public class Utils {
 	 * Method used for writing multiple Warning messages to the Logger.
 	 * @param message String Array of messages to write.
 	 */
-	public static void warning(String[] message) {
+	public synchronized static void warning(String[] message) {
 		for(String s : message) {
 			Bukkit.getLogger().log(Level.WARNING, String.format("[API+] %s", s));
 		}
@@ -68,7 +68,7 @@ public class Utils {
 	 * Method used for setting Debug mode of API.
 	 * @param b Boolean value to be set.
 	 */
-	public static void setDebug(boolean b) {
+	public synchronized static void setDebug(boolean b) {
 		useDebug = b;
 	}
 	
@@ -76,12 +76,12 @@ public class Utils {
 	 * Method used for a writing Debug message to the Logger.
 	 * @param message String message to write.
 	 */
-	public static void debug(String message) {
+	public synchronized static void debug(String message) {
 		if(useDebug == false) return;
 		Bukkit.getLogger().log(Level.INFO, String.format("[API+][Debug] %s", message));
 	}
 	
-	public static void debug(Exception e) {
+	public synchronized static void debug(Exception e) {
 		if(useDebug == false) return;
 		Bukkit.getLogger().log(Level.INFO, String.format("[API+][Debug] %s %s", e.getLocalizedMessage(), e.getCause()));
 	}
@@ -90,7 +90,7 @@ public class Utils {
 	 * Method used for writing multiple Debug messages to the Logger.
 	 * @param message String Array of messages to write. 
 	 */
-	public static void debug(String[] message) {
+	public synchronized static void debug(String[] message) {
 		if(useDebug == false) return;
 		for(String s : message) {
 			Bukkit.getLogger().log(Level.INFO, String.format("[API+][Debug] %s", s));
@@ -102,7 +102,7 @@ public class Utils {
 	 * @param items List<ItemStack> to check.
 	 * @return boolean True if contains CustomItems, False if not.
 	 */
-	public static boolean containsCustomItems(List<ItemStack> items){
+	public synchronized static boolean containsCustomItems(List<ItemStack> items){
 		for(ItemStack i : items){
 			if(isCustomItem(i)){
 				return true;
@@ -116,7 +116,7 @@ public class Utils {
 	 * @param item ItemStack to check.
 	 * @return boolean True if is CustomItem, False if not.
 	 */
-	public static boolean isCustomItem(ItemStack item){
+	public synchronized static boolean isCustomItem(ItemStack item){
 		return new SpoutItemStack(item).isCustomItem();
 	}
 	
@@ -128,7 +128,7 @@ public class Utils {
 	 * @param radiusZ Double value to use as max radius on Z axis.
 	 * @return List<Entity> List of Entities within range.
 	 */
-	public static List<Entity> getNearbyEntities(Location loc, double radiusX, double radiusY, double radiusZ) {
+	public synchronized static List<Entity> getNearbyEntities(Location loc, double radiusX, double radiusY, double radiusZ) {
 		Entity e = loc.getWorld().spawn(loc, ExperienceOrb.class);
 		@SuppressWarnings("unchecked")
 		List<Entity> entities = (List<Entity>) ((ArrayList<Entity>) e.getNearbyEntities(radiusX, radiusY, radiusZ)).clone();
@@ -142,7 +142,7 @@ public class Utils {
 	 * @param end Integer to end with.
 	 * @return Integer Random Integer created.
 	 */
-	public static int getRandomInteger(int start, int end) {
+	public synchronized static int getRandomInteger(int start, int end) {
 		Random rand = new Random();
 		return start + rand.nextInt(end + 1);
 	}
@@ -152,7 +152,7 @@ public class Utils {
 	 * @param l Location to be referenced.
 	 * @return Vector Vector of Direction.
 	 */
-	public static Vector getDirection(Location l) {
+	public synchronized static Vector getDirection(Location l) {
 		Vector vector = new Vector();
 
 		double rotX = l.getYaw();
@@ -174,7 +174,7 @@ public class Utils {
 	 * @param lookat Location to look at.
 	 * @return Location Location facing lookat Location.
 	 */
-	public static Location setLookingAt(final Location loc, final Location lookat) {
+	public synchronized static Location setLookingAt(final Location loc, final Location lookat) {
 		Location location = loc.clone();
 		double dx = lookat.getX() - location.getX();
 		double dy = lookat.getY() - location.getY();
@@ -203,7 +203,7 @@ public class Utils {
 	 * @param p Player to be referenced.
 	 * @return Location of Player's Hand.
 	 */
-	public static Location getHandLocation(Player p) {
+	public synchronized static Location getHandLocation(Player p) {
 		Location loc = p.getLocation().clone();
 
 		double a = loc.getYaw() / 180D * Math.PI + Math.PI / 2;
@@ -221,7 +221,7 @@ public class Utils {
 	 * @param radius Double to use as radius around center.
 	 * @return List<Block> List of blocks that make of Sphere.
 	 */
-	public static List<Block> getSphere(Location center, double radius) {
+	public synchronized static List<Block> getSphere(Location center, double radius) {
 		List<Block> blockList = new ArrayList<Block>();
 	    radius += 0.5;
 	    final double radSquare = Math.pow(2, radius);
@@ -249,7 +249,7 @@ public class Utils {
 	 * @param loc Location to be referenced.
 	 * @return boolean True if allowed, False if not.
 	 */
-	public static boolean tntIsAllowedInRegion(Location loc) {
+	public synchronized static boolean tntIsAllowedInRegion(Location loc) {
 		if (ApiPlus.hooks.containsKey("WorldGuard")) {
 			WorldGuardPlugin wg = (WorldGuardPlugin) ApiPlus.hooks.get("WorldGuard");
 			if (!wg.getGlobalRegionManager().allows(DefaultFlag.TNT, loc)) {

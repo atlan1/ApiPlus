@@ -1,9 +1,15 @@
 package team.ApiPlus.Manager;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.plugin.Plugin;
+import org.getspout.spoutapi.material.item.GenericCustomItem;
+
 import team.ApiPlus.Item;
+import team.ApiPlus.API.PluginPlus;
 import team.ApiPlus.Util.Utils;
 
 /**
@@ -66,6 +72,28 @@ public class ItemManager {
 			if(i.getName().equalsIgnoreCase(name)) return i;
 		}
 		return null;
+	}
+	
+	/**
+	 * Method used for building an Item based on supplied data.
+	 * @param p Plugin+ to be used.
+	 * @param name String name of new Item.
+	 * @param texture String URL for Texture.
+	 * @param baseType  String name of Type to Base off.
+	 * @return Item Item created.
+	 * @throws InvocationTargetException InvocationTargetException is a checked exception that wraps an exception thrown by an invoked method or constructor.
+	 * @throws IllegalAccessException An IllegalAccessException is thrown when an application tries to reflectively create an instance (other than an array), set or get a field, or invoke a method, but the currently executing method does not have access to the definition of the specified class, field, method or constructor.
+	 * @throws InstantiationException Thrown when an application tries to create an instance of a class using the newInstance method in class Class, but the specified class object cannot be instantiated.
+	 * @throws IllegalArgumentException Thrown to indicate that a method has been passed an illegal or inappropriate argument.
+	 * @throws NoSuchMethodException Thrown when a particular method cannot be found.
+	 * @throws SecurityException Thrown by the security manager to indicate a security violation.
+	 */
+	public Item buildItem(PluginPlus p, String name, String texture, String baseType) throws IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException, SecurityException, NoSuchMethodException {
+		Item type = new Item(TypeManager.getInstance().getType(baseType));
+		Item item;
+		Constructor<? extends GenericCustomItem> con = type.getClass().getConstructor(Plugin.class, String.class, String.class);
+		item = new Item(con.newInstance(p,name,texture));
+		return item;
 	}
 	
 	/**

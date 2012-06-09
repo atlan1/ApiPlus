@@ -5,6 +5,8 @@ import java.util.HashMap;
 import org.bukkit.plugin.Plugin;
 import org.getspout.spoutapi.material.item.GenericCustomItem;
 
+import team.ApiPlus.Manager.ItemManager;
+
 /**
  * API+ Custom Item
  * @author SirTyler (Tyler Martin)
@@ -15,10 +17,15 @@ public class Item extends GenericCustomItem {
 	private HashMap<String, Float> values = new HashMap<String, Float>();
 	private HashMap<String, String> resources = new HashMap<String, String>();
 	private HashMap<String, Object> objects = new HashMap<String, Object>();
-
+	
+	public Item(GenericCustomItem it) {
+		super(it.getPlugin(), it.getName(), it.getTexture());
+		ItemManager.getInstance().addItem(this);
+	}
+	
 	public Item(Plugin plugin, String name, String texture) {
 		super(plugin, name, texture);
-		ApiPlus.iManager.addItem(this);
+		ItemManager.getInstance().addItem(this);
 	}
 	
 	/**

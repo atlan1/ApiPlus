@@ -21,7 +21,7 @@ public class FileUtil {
 	 * @param file File to be saved to.
 	 * @return boolean True if action completed successfully, false if not.
 	 */
-	public static boolean copy(InputStream in, File file){
+	public synchronized static boolean copy(InputStream in, File file){
 		try {
 			OutputStream out = new FileOutputStream(file);
 			byte[] buf = new byte[1024];
@@ -44,7 +44,7 @@ public class FileUtil {
 	 * @param out File to be saved to.
 	 * @return boolean True if action completed successfully, false if not.
 	 */
-	public static boolean copy(File in, File out) {
+	public synchronized static boolean copy(File in, File out) {
 		try {
 			InputStream is = new FileInputStream(in);
 			return copy(is,out);
@@ -59,7 +59,7 @@ public class FileUtil {
 	 * @param path String path to be used.
 	 * @return boolean True if action completed successfully, false if not.
 	 */
-	public static boolean create(String path){
+	public synchronized static boolean create(String path){
 		File f = new File(path);
 		return create(f);
 	}
@@ -69,7 +69,7 @@ public class FileUtil {
 	 * @param f File to be used.
 	 * @return boolean True if action completed successfully, false if not.
 	 */
-	public static boolean create(File f){
+	public synchronized static boolean create(File f){
 		if(!f.exists()){
 			f.getParentFile().mkdirs();
 			try {
@@ -89,7 +89,7 @@ public class FileUtil {
 	 * @param path String path to be used.
 	 * @return boolean True if action completed successfully, false if not.
 	 */
-	public static boolean delete(String path) {
+	public synchronized static boolean delete(String path) {
 		File f = new File(path);
 		return delete(f);
 	}
@@ -99,7 +99,7 @@ public class FileUtil {
 	 * @param f File to be used.
 	 * @return boolean True if action completed successfully, false if not.
 	 */
-	public static boolean delete(File f){
+	public synchronized static boolean delete(File f){
 		return f.delete();
 	}
 	
@@ -109,7 +109,7 @@ public class FileUtil {
 	 * @param out File to be saved to.
 	 * @return boolean True if action completed successfully, false if not.
 	 */
-	public static boolean copyOpen(InputStream in, File file){
+	public synchronized static boolean copyOpen(InputStream in, File file){
 		try {
 			OutputStream out = new FileOutputStream(file);
 			byte[] buf = new byte[1024];

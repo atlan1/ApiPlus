@@ -6,15 +6,18 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import team.ApiPlus.Manager.ItemManager;
+import team.ApiPlus.Manager.TypeManager;
 import team.ApiPlus.Manager.Loadout.LoadoutManager;
 import team.ApiPlus.Util.Utils;
 
+@SuppressWarnings("unused")
 public class ApiPlus extends JavaPlugin {
 	
-	private static String version;
+	private String version;
 	private static ApiPlus instance;
-	public static ItemManager iManager;
-	public static LoadoutManager lManager;
+	private ItemManager iManager;
+	private LoadoutManager lManager;
+	private TypeManager tManager;
 	public static Map<String,Plugin> hooks = new HashMap<String,Plugin>();
 	
 	@Override
@@ -23,6 +26,7 @@ public class ApiPlus extends JavaPlugin {
 		version = getDescription().getVersion();
 		iManager = ItemManager.getInstance();
 		lManager = LoadoutManager.getInstance();
+		tManager = TypeManager.getInstance();
 		lManager.read();
 		hook();
 		

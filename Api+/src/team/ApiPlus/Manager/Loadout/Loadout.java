@@ -12,7 +12,6 @@ import java.util.zip.ZipInputStream;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import team.ApiPlus.ApiPlus;
 import team.ApiPlus.Util.FileUtil;
 import team.ApiPlus.Util.Utils;
 
@@ -62,7 +61,7 @@ public class Loadout {
 				}
 			}
 			in.close();
-			ApiPlus.lManager.addLoadout(this);
+			LoadoutManager.getInstance().addLoadout(this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
