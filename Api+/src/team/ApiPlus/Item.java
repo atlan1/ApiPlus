@@ -135,4 +135,23 @@ public class Item extends GenericCustomItem {
 		HashMap<String, Float> list = new HashMap<String, Float>(values);
 		this.values = list;
 	}
+	
+	/**
+	 * Method for copying property data from one Item to this Item.
+	 * @param parent Item to copy data from.
+	 */
+	public void copyData(Item parent) {
+		this.setValues(parent.getValues());
+		this.setResources(parent.getResources());
+		this.setObjects(parent.getObjects());
+	}
+	
+	/**
+	 * Method used for checking if Item is empty, meaning it contains no values.
+	 * @return boolean True if empty, False is contains data.
+	 */
+	public boolean isEmpty() {
+		if(values.isEmpty() && objects.isEmpty() && resources.isEmpty()) return true;
+		else return false;
+	}
 }
