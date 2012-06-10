@@ -1,8 +1,0 @@
-name: ApiPlus
-main: team.ApiPlus.ApiPlus
-version: 1.0
-depend: [Spout]
-soft-depend: [FurnaceAPI, WorldGuard]
-authors: [SirTyler, Atlan1]
-description: >
-             An api for all Guns+ like plugins.

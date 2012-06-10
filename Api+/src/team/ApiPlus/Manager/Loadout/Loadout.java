@@ -54,7 +54,7 @@ public class Loadout {
 						info.put("AUTHORS", con.getString("loadout-authros"));
 						info.put("PLUGIN", con.getString("loadout-plugin"));
 						info.put("PVERSION", con.getString("loadout-plugin-version"));
-						Utils.info(String.format("Loadout %s has now be loaded.", getName()));
+						Utils.info(String.format("Loadout: %s has now been loaded.", getName()));
 					}
 					FileUtil.delete(child);
 					configs.add(con);
