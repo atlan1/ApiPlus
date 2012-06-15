@@ -3,15 +3,14 @@ package team.ApiPlus.Manager;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.getspout.spoutapi.material.block.GenericCustomBlock;
-import org.getspout.spoutapi.material.item.GenericCustomItem;
-
+import team.ApiPlus.API.Type.BlockType;
+import team.ApiPlus.API.Type.ItemType;
 import team.ApiPlus.Util.Utils;
 
 public class TypeManager {
 	private static TypeManager instance;
-	private Map<String, Class<? extends GenericCustomItem>> itemtypes = new HashMap<String, Class<? extends GenericCustomItem>>();
-	private Map<String, Class<? extends GenericCustomBlock>> blocktypes = new HashMap<String, Class<? extends GenericCustomBlock>>();
+	private Map<String, Class<? extends ItemType>> itemtypes = new HashMap<String, Class<? extends ItemType>>();
+	private Map<String, Class<? extends BlockType>> blocktypes = new HashMap<String, Class<? extends BlockType>>();
 	
 	private TypeManager() {
 		if(instance != null) Utils.info("Cannot have multiple Instances of the Type Manager.");
@@ -23,7 +22,7 @@ public class TypeManager {
 	 * @param c GenericCustomItem of Type.
 	 * @return boolean True if action completed successfully, false if not.
 	 */
-	public boolean registerItemType(String name, Class<? extends GenericCustomItem> c) {
+	public boolean registerItemType(String name, Class<? extends ItemType> c) {
 		if(checkItemType(name)) return false;
 		else {
 			itemtypes.put(name, c);
@@ -58,8 +57,8 @@ public class TypeManager {
 	 * @param name String name of Type to find.
 	 * @return CustomItem Returns found CustomItem, null if none found.
 	 */
-	public GenericCustomItem getItemType(String name) {
-		if(checkItemType(name)) return itemtypes.get(name).cast(GenericCustomItem.class);
+	public Class<? extends ItemType> getItemType(String name) {
+		if(checkItemType(name)) return itemtypes.get(name);
 		else return null;
 	}
 	
@@ -69,7 +68,7 @@ public class TypeManager {
 	 * @param c GenericCustomBlock of Type.
 	 * @return boolean True if action completed successfully, false if not.
 	 */
-	public boolean registerBlockType(String name, Class<? extends GenericCustomBlock> c) {
+	public boolean registerBlockType(String name, Class<? extends BlockType> c) {
 		if(checkBlockType(name)) return false;
 		else {
 			blocktypes.put(name, c);
@@ -104,8 +103,8 @@ public class TypeManager {
 	 * @param name String name of Type to find.
 	 * @return CustomBlock Returns found Custom Block, null if none found.
 	 */
-	public GenericCustomBlock getBlockType(String name) {
-		if(checkBlockType(name)) return blocktypes.get(name).cast(GenericCustomBlock.class);
+	public Class<? extends BlockType> getBlockType(String name) {
+		if(checkBlockType(name)) return blocktypes.get(name);
 		else return null;
 	}
 	

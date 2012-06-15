@@ -4,10 +4,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.bukkit.plugin.Plugin;
-import org.getspout.spoutapi.material.item.GenericCustomItem;
-
 import team.ApiPlus.API.PluginPlus;
 import team.ApiPlus.API.Type.ItemType;
 import team.ApiPlus.Util.Utils;
@@ -89,10 +86,10 @@ public class ItemManager {
 	 * @throws SecurityException Thrown by the security manager to indicate a security violation.
 	 */
 	public ItemType buildItem(PluginPlus p, String name, String texture, String baseType) throws IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException, SecurityException, NoSuchMethodException {
-		ItemType type = new ItemType(TypeManager.getInstance().getItemType(baseType));
+		Class<? extends ItemType> type = TypeManager.getInstance().getItemType(baseType);
 		ItemType item;
-		Constructor<? extends GenericCustomItem> con = type.getClass().getConstructor(Plugin.class, String.class, String.class);
-		item = new ItemType(con.newInstance(p,name,texture));
+		Constructor<? extends ItemType> con = type.getConstructor(Plugin.class, String.class, String.class);
+		item = con.newInstance(p,name,texture);
 		return item;
 	}
 	

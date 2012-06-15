@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.plugin.Plugin;
-import org.getspout.spoutapi.material.block.GenericCustomBlock;
 
 import team.ApiPlus.API.PluginPlus;
 import team.ApiPlus.API.Type.BlockType;
@@ -84,10 +83,10 @@ public class BlockManager {
 	 * @throws SecurityException Thrown by the security manager to indicate a security violation.
 	 */
 	public BlockType buildBlock(PluginPlus p, String name, boolean isOpaque, String baseType) throws IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException, SecurityException, NoSuchMethodException {
-		BlockType type = new BlockType(TypeManager.getInstance().getBlockType(baseType));
+		Class<? extends BlockType> type = TypeManager.getInstance().getBlockType(baseType);
 		BlockType block;
-		Constructor<? extends GenericCustomBlock> con = type.getClass().getConstructor(Plugin.class, String.class, boolean.class);
-		block = new BlockType(con.newInstance(p,name,isOpaque));
+		Constructor<? extends BlockType> con = type.getConstructor(Plugin.class, String.class, boolean.class);
+		block = con.newInstance(p,name,isOpaque);
 		return block;
 	}
 	

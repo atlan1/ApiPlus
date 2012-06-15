@@ -6,9 +6,6 @@ import java.util.logging.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.getspout.spoutapi.material.block.GenericCustomBlock;
-import org.getspout.spoutapi.material.item.GenericCustomItem;
-
 import team.ApiPlus.API.Type.BlockType;
 import team.ApiPlus.API.Type.ItemType;
 import team.ApiPlus.Manager.BlockManager;
@@ -65,7 +62,7 @@ abstract public class PluginPlus extends JavaPlugin {
 	 * @param Map containing the names and the classes to add as new types.
 	 * @return boolean True if action completed successfully, False if not.
 	 */
-	public boolean registerItemTypes(Map<String, Class<? extends GenericCustomItem>> types) {
+	public boolean registerItemTypes(Map<String, Class<? extends ItemType>> types) {
 		try{
 			for(String s : new HashSet<String>(types.keySet()))
 				TypeManager.getInstance().registerItemType(s, types.get(s));
@@ -81,7 +78,7 @@ abstract public class PluginPlus extends JavaPlugin {
 	 * @param Map containing the names and the classes to add as new types.
 	 * @return boolean True if action completed successfully, False if not.
 	 */
-	public boolean registerBlockTypes(Map<String, Class<? extends GenericCustomBlock>> types) {
+	public boolean registerBlockTypes(Map<String, Class<? extends BlockType>> types) {
 		try{
 			for(String s : new HashSet<String>(types.keySet()))
 				TypeManager.getInstance().registerBlockType(s, types.get(s));
