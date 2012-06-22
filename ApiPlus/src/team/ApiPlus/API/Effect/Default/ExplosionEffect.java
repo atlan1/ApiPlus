@@ -1,0 +1,37 @@
+package team.ApiPlus.API.Effect.Default;
+
+import org.bukkit.Location;
+
+import team.ApiPlus.API.Effect.EffectTarget;
+import team.ApiPlus.API.Effect.LocationEffect;
+import team.ApiPlus.Util.Utils;
+
+public class ExplosionEffect implements LocationEffect{
+
+	private EffectTarget et;
+	
+	private int size = 0;
+	
+
+	public ExplosionEffect(Object...args) {
+		this.size =  (Integer) args[0];
+	}
+
+	@Override
+	public void performEffect(Object... arguments) {
+		Location l = (Location) arguments[0];
+		if(Utils.tntIsAllowedInRegion(l))
+			 l.getWorld().createExplosion(l, size);
+	}
+
+
+	@Override
+	public EffectTarget getEffectTarget() {
+		return et;
+	}
+
+	@Override
+	public void setEffectTarget(EffectTarget et) {
+		this.et = et;
+	}
+}
