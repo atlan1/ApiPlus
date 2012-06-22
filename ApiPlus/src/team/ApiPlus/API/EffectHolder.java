@@ -10,5 +10,5 @@ public interface EffectHolder {
 
 	public List<Effect> getEffects();
 	public void setEffects(List<Effect> effects);
-	public  <T> void performEffects(T... t);
+	public  void performEffects(Object... args);
 }

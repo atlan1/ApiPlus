@@ -1,13 +1,25 @@
 package team.ApiPlus;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import team.ApiPlus.API.Effect.Default.BreakEffect;
+import team.ApiPlus.API.Effect.Default.BurnEffect;
+import team.ApiPlus.API.Effect.Default.LightningEffect;
+import team.ApiPlus.API.Effect.Default.MoveEffect;
+import team.ApiPlus.API.Effect.Default.ParticleEffect;
+import team.ApiPlus.API.Effect.Default.PlaceEffect;
+import team.ApiPlus.API.Effect.Default.PotionEffect;
+import team.ApiPlus.API.Effect.Default.SpawnEffect;
 import team.ApiPlus.API.Type.BlockType;
 import team.ApiPlus.API.Type.BlockTypeEffect;
 import team.ApiPlus.API.Type.BlockTypeEffectPlusProperty;
@@ -18,9 +30,11 @@ import team.ApiPlus.API.Type.ItemTypeEffectPlusProperty;
 import team.ApiPlus.API.Type.ItemTypeProperty;
 import team.ApiPlus.Manager.BlockManager;
 import team.ApiPlus.Manager.ConfigManager;
+import team.ApiPlus.Manager.EffectManager;
 import team.ApiPlus.Manager.ItemManager;
 import team.ApiPlus.Manager.TypeManager;
 import team.ApiPlus.Manager.Loadout.LoadoutManager;
+import team.ApiPlus.Util.ConfigUtil;
 import team.ApiPlus.Util.FileUtil;
 import team.ApiPlus.Util.Utils;
 
@@ -33,8 +47,10 @@ public class ApiPlus extends JavaPlugin {
 	private BlockManager bManager;
 	private LoadoutManager lManager;
 	private TypeManager tManager;
+	private EffectManager eManager;
 	private ConfigManager cManager;
 	public static Map<String,Plugin> hooks = new HashMap<String,Plugin>();
+	public static List<Material> transparentMaterials = new ArrayList<Material>();
 	
 	@Override
 	public void onEnable() {
@@ -44,12 +60,14 @@ public class ApiPlus extends JavaPlugin {
 		bManager = BlockManager.getInstance();
 		lManager = LoadoutManager.getInstance();
 		tManager = TypeManager.getInstance();
+		eManager = EffectManager.getInstance();
 		cManager = ConfigManager.getInstance();
 		lManager.loadAll();
 		Utils.debug(lManager.read());
 		hook();
 		loadGeneral();
 		registerDefaultMaterialTypes();
+		registerDefaultEffectTypes();
 		Utils.info(String.format("API+ Version:%s Enabled.", version));
 	}
 	
@@ -72,12 +90,16 @@ public class ApiPlus extends JavaPlugin {
 	}
 	
 	private void loadGeneral() {
-		File general = new File(this.getDataFolder().getPath() + File.separator + "general.yml");
-		if(!general.exists()) FileUtil.copy(this.getResource("genearl.yml"), general);
+		File general = new File(this.getDataFolder(), "general.yml");
+		if(FileUtil.create(general))
+			FileUtil.copy(this.getResource("general.yml"), general);
 		cManager.add(general);
 		FileConfiguration con = cManager.get(general);
 		if(con != null) {
 			Utils.setDebug(Boolean.valueOf(con.getString("debug","false")));
+			for(ItemStack i:ConfigUtil.parseItems(con.getString("transparent-materials")))
+				if(i.getType().isBlock())
+					transparentMaterials.add(i.getType());
 		} else return;
 	}
 	
@@ -91,6 +113,19 @@ public class ApiPlus extends JavaPlugin {
 		tm.registerItemType("ItemProperty", ItemTypeProperty.class);
 		tm.registerItemType("ItemEffect", ItemTypeEffect.class);
 		tm.registerItemType("ItemEffectPlusProperty", ItemTypeEffectPlusProperty.class);
+	}
+	
+	private void registerDefaultEffectTypes(){
+		EffectManager em = EffectManager.getInstance();
+		em.registerEffectType("BREAK", BreakEffect.class);
+		em.registerEffectType("PLACE", PlaceEffect.class);
+		em.registerEffectType("EXPLOSION", BreakEffect.class);
+		em.registerEffectType("LIGHTNING", LightningEffect.class);
+		em.registerEffectType("SPAWN", SpawnEffect.class);
+		em.registerEffectType("MOVE", MoveEffect.class);
+		em.registerEffectType("PARTICLE", ParticleEffect.class);
+		em.registerEffectType("BURN", BurnEffect.class);
+		em.registerEffectType("POTION", PotionEffect.class);
 	}
 	
 	/**
