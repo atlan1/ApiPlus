@@ -1,7 +1,10 @@
 package team.ApiPlus.Util;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.logging.Level;
 
@@ -27,6 +30,30 @@ import team.ApiPlus.ApiPlus;
  */
 public class Utils {
 	private static boolean useDebug = true;
+	
+	/**
+	 * Method used for checking if a block is defined as transparent
+	 * @param b Block to check
+	 * @return boolean true if b was transparent, else false
+	 */
+	public  synchronized static boolean isTransparent(Block b){
+		return ApiPlus.transparentMaterials.contains(b.getType());
+	}
+	
+	/**
+	 * Method used for getting the key in a map with a given value
+	 * @param map The map to be used
+	 * @param value The value to get the key for
+	 * @return Object Matching key if contained, else null
+	 */
+	public  synchronized static <K, V> Object getKey(Map<K, V> map, Object value){
+		for(Entry<K, V> entry : new HashSet<Entry<K, V>>(map.entrySet())){
+			if(entry.getValue().equals(value)){
+				return entry.getKey();
+			}
+		}
+		return null;
+	}
 	
 	/**
 	 * Method used for writing a Info message to the Logger.

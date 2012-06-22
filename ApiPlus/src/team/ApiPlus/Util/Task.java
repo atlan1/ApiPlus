@@ -55,6 +55,10 @@ public class Task implements Runnable {
     public String getStringArg(int index) {
         return (String) getArg(index);
     }
+    
+    public int getTaskID(){
+    	return taskID;
+    }
 
     public void run() {
 
