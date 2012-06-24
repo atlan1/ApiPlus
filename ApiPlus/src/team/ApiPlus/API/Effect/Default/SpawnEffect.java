@@ -6,6 +6,10 @@ import org.bukkit.entity.EntityType;
 import team.ApiPlus.API.Effect.EffectTarget;
 import team.ApiPlus.API.Effect.LocationEffect;
 
+/**
+ * @author Atlan1
+ * @version 1.0
+ */
 public class SpawnEffect implements LocationEffect{
 	
 	private EffectTarget et;
@@ -20,7 +24,7 @@ public class SpawnEffect implements LocationEffect{
 	public void performEffect(Object... arguments) {
 		Location l = (Location) arguments[0];
 		l.add(0, 1, 0);
-		l.getWorld().spawnCreature(l, ent);
+		l.getWorld().spawn(l, ent.getEntityClass());
 	}
 
 

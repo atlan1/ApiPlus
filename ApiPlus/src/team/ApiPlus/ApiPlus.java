@@ -1,19 +1,24 @@
 package team.ApiPlus;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Material;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import team.ApiPlus.API.Effect.Default.BreakEffect;
 import team.ApiPlus.API.Effect.Default.BurnEffect;
+import team.ApiPlus.API.Effect.Default.ExplosionEffect;
 import team.ApiPlus.API.Effect.Default.LightningEffect;
 import team.ApiPlus.API.Effect.Default.MoveEffect;
 import team.ApiPlus.API.Effect.Default.ParticleEffect;
@@ -94,12 +99,22 @@ public class ApiPlus extends JavaPlugin {
 		if(FileUtil.create(general))
 			FileUtil.copy(this.getResource("general.yml"), general);
 		cManager.add(general);
-		FileConfiguration con = cManager.get(general);
+		FileConfiguration con = new YamlConfiguration();
+		try {
+			con.load(general);
+		} catch (FileNotFoundException e) {
+			Utils.debug(e);
+		} catch (IOException e) {
+			Utils.debug(e);
+		} catch (InvalidConfigurationException e) {
+			Utils.debug(e);
+		}
 		if(con != null) {
 			Utils.setDebug(Boolean.valueOf(con.getString("debug","false")));
-			for(ItemStack i:ConfigUtil.parseItems(con.getString("transparent-materials")))
-				if(i.getType().isBlock())
+			for(ItemStack i:ConfigUtil.parseItems(con.getString("transparent-materials"))) {
 					transparentMaterials.add(i.getType());
+			}
+			
 		} else return;
 	}
 	
@@ -119,7 +134,7 @@ public class ApiPlus extends JavaPlugin {
 		EffectManager em = EffectManager.getInstance();
 		em.registerEffectType("BREAK", BreakEffect.class);
 		em.registerEffectType("PLACE", PlaceEffect.class);
-		em.registerEffectType("EXPLOSION", BreakEffect.class);
+		em.registerEffectType("EXPLOSION", ExplosionEffect.class);
 		em.registerEffectType("LIGHTNING", LightningEffect.class);
 		em.registerEffectType("SPAWN", SpawnEffect.class);
 		em.registerEffectType("MOVE", MoveEffect.class);

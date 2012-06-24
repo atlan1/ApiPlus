@@ -8,6 +8,10 @@ import org.bukkit.plugin.Plugin;
 import team.ApiPlus.API.EffectHolder;
 import team.ApiPlus.API.Effect.Effect;
 
+/**
+ * @author Atlan1
+ * @version 1.0
+ */
 public abstract class ItemTypeEffect extends ItemType implements EffectHolder {
 
 	public ItemTypeEffect(Plugin plugin, String name, String texture) {

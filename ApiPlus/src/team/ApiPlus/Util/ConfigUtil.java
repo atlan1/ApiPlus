@@ -8,6 +8,10 @@ import org.bukkit.inventory.ItemStack;
 import org.getspout.spoutapi.material.MaterialData;
 import org.getspout.spoutapi.inventory.SpoutItemStack;
 
+/**
+ * @author Atlan1
+ * @version 1.0
+ */
 public class ConfigUtil {
 
 	

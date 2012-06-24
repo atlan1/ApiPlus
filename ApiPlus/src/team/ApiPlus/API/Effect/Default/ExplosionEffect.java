@@ -6,6 +6,10 @@ import team.ApiPlus.API.Effect.EffectTarget;
 import team.ApiPlus.API.Effect.LocationEffect;
 import team.ApiPlus.Util.Utils;
 
+/**
+ * @author Atlan1
+ * @version 1.0
+ */
 public class ExplosionEffect implements LocationEffect{
 
 	private EffectTarget et;

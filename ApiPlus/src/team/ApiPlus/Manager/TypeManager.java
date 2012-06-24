@@ -7,6 +7,10 @@ import team.ApiPlus.API.Type.BlockType;
 import team.ApiPlus.API.Type.ItemType;
 import team.ApiPlus.Util.Utils;
 
+/**
+ * @author Atlan1
+ * @version 1.0
+ */
 public class TypeManager {
 	private static TypeManager instance;
 	private Map<String, Class<? extends ItemType>> itemtypes = new HashMap<String, Class<? extends ItemType>>();

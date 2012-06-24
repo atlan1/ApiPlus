@@ -3,11 +3,15 @@ package team.ApiPlus.API.Effect.Default;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
-import team.ApiPlus.API.Effect.Effect;
 import team.ApiPlus.API.Effect.EffectTarget;
+import team.ApiPlus.API.Effect.LocationEffect;
 import team.ApiPlus.Util.Utils;
 
-public class PlaceEffect implements Effect{
+/**
+ * @author Atlan1
+ * @version 1.0
+ */
+public class PlaceEffect implements LocationEffect{
 
 	private EffectTarget et;
 	
@@ -20,9 +24,8 @@ public class PlaceEffect implements Effect{
 	@Override
 	public void performEffect(Object... arguments) {
 		Location l = (Location) arguments[0];
-		 if(Utils.isTransparent(l.getBlock())){
-			 l.getBlock().setType(m);
-		 }
+		if(Utils.isTransparent(l.getBlock()))
+			l.getBlock().setType(m);
 	}
 	
 

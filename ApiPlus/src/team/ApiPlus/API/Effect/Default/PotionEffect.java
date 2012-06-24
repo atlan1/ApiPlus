@@ -6,6 +6,10 @@ import org.bukkit.potion.PotionEffectType;
 import team.ApiPlus.API.Effect.EffectTarget;
 import team.ApiPlus.API.Effect.EntityEffect;
 
+/**
+ * @author Atlan1
+ * @version 1.0
+ */
 public class PotionEffect implements EntityEffect{
 
 	private EffectTarget et;

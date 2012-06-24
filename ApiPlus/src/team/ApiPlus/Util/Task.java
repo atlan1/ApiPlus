@@ -3,6 +3,10 @@ package team.ApiPlus.Util;
 import org.bukkit.Server;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * @author SirTyler, Atlan1
+ * @version 1.0
+ */
 public class Task implements Runnable {
     private JavaPlugin plugin;
     protected Object[] arguments;

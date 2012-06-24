@@ -2,6 +2,10 @@ package team.ApiPlus.Util;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * @author Atlan1
+ * @version 1.0
+ */
 public class TaskModel {
 
 	

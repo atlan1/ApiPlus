@@ -2,6 +2,10 @@ package team.ApiPlus.API;
 
 import java.util.Map;
 
+/**
+ * @author Atlan1
+ * @version 1.0
+ */
 public interface PropertyHolder {
 
 	public Object getProperty(String id);

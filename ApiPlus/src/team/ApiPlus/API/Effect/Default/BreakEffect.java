@@ -7,6 +7,10 @@ import org.getspout.spoutapi.block.SpoutBlock;
 import team.ApiPlus.API.Effect.EffectTarget;
 import team.ApiPlus.API.Effect.LocationEffect;
 
+/**
+ * @author Atlan1
+ * @version 1.0
+ */
 public class BreakEffect implements LocationEffect{
 
 	private EffectTarget et;

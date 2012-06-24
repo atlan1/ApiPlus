@@ -8,6 +8,10 @@ import java.util.Map;
 import team.ApiPlus.API.Effect.Effect;
 import team.ApiPlus.Util.Utils;
 
+/** 
+ * @author Atlan1
+ * @version 1.0
+ */
 public class EffectManager {
 	private static EffectManager instance;
 	private Map<String, Class<? extends Effect>> effecttypes = new HashMap<String, Class<? extends Effect>>();

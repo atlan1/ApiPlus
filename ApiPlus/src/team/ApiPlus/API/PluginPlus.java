@@ -14,7 +14,7 @@ import team.ApiPlus.Manager.TypeManager;
 
 /**
  * PluginPlus class for use with API+.
- * @author SirTyler (Tyler Martin)
+ * @author SirTyler, Atlan1
  * @version 1.0
  */
 abstract public class PluginPlus extends JavaPlugin {

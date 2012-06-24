@@ -5,6 +5,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 import team.ApiPlus.API.Trigger.Trigger;
 import team.ApiPlus.Util.Task;
 
+/**
+ * @author Atlan1
+ * @version 1.0
+ */
 public class TriggerTask extends Task {
 
 	private Trigger trigger;

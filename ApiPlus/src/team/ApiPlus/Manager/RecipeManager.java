@@ -21,14 +21,14 @@ import team.ApiPlus.Util.Utils;
 
 /**
  * Recipe Manager class for API+.
- * @author SirTyler (Tyler Martin)
+ * @author SirTyler, Atlan1
  * @version 1.0
  */
 public class RecipeManager {
 	
 	/**
 	 * Enum representing the Type of Recipe.
-	 * @author SirTyler (Tyler Martin)
+	 * @author SirTyler, Atlan1
 	 */
 	public enum RecipeType{
 		SHAPED, SHAPELESS, FURNACE;

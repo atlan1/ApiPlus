@@ -16,6 +16,10 @@ import com.griefcraft.util.ProtectionFinder;
 import com.griefcraft.util.matchers.DoorMatcher;
 import com.griefcraft.util.matchers.DoubleChestMatcher;
 
+/**
+ * @author Atlan1
+ * @version 1.0
+ */
 public class ItemType extends GenericCustomItem implements MaterialType{
 
 	public ItemType(Plugin plugin, String name, String texture) {

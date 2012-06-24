@@ -5,6 +5,10 @@ import java.util.List;
 
 import team.ApiPlus.API.PropertyHolder;
 
+/**
+ * @author , Atlan1
+ * @version 1.0
+ */
 public class PropertyManager {
 
 	

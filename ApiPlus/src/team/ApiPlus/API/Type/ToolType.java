@@ -16,6 +16,10 @@ import com.griefcraft.util.ProtectionFinder;
 import com.griefcraft.util.matchers.DoorMatcher;
 import com.griefcraft.util.matchers.DoubleChestMatcher;
 
+/**
+ * @author Atlan1
+ * @version 1.0
+ */
 public class ToolType extends GenericCustomTool implements MaterialType{
 
 	public ToolType(Plugin plugin, String name, String texture) {

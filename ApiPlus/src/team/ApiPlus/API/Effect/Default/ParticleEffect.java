@@ -8,6 +8,10 @@ import org.getspout.spoutapi.particle.Particle.ParticleType;
 import team.ApiPlus.API.Effect.EffectTarget;
 import team.ApiPlus.API.Effect.LocationEffect;
 
+/**
+ * @author Atlan1
+ * @version 1.0
+ */
 public class ParticleEffect implements LocationEffect{
 
 	private EffectTarget et;

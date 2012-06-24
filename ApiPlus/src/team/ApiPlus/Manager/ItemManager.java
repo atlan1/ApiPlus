@@ -11,7 +11,7 @@ import team.ApiPlus.Util.Utils;
 
 /**
  * API+ Custom Item Manager.
- * @author SirTyler (Tyler Martin)
+ * @author SirTyler, Atlan1
  * @version 1.0
  */
 public class ItemManager {

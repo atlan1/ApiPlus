@@ -7,6 +7,10 @@ import org.bukkit.plugin.Plugin;
 
 import team.ApiPlus.API.PropertyHolder;
 
+/**
+ * @author Atlan1
+ * @version 1.0
+ */
 public abstract class ItemTypeProperty extends ItemType implements PropertyHolder {
 
 	private Map<String, Object> properties = new HashMap<String, Object>();
