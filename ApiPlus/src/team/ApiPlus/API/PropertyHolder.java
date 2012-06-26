@@ -2,7 +2,7 @@ package team.ApiPlus.API;
 
 import java.util.Map;
 
-/**
+/** PropertyHolder that contains and manages properties of a class
  * @author Atlan1
  * @version 1.0
  */

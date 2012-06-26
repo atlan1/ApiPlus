@@ -10,7 +10,7 @@ import team.ApiPlus.API.Type.ItemType;
 import team.ApiPlus.Util.Utils;
 
 /**
- * API+ Custom Item Manager.
+ * API+ Custom Item Manager - used for managing and building custom items
  * @author SirTyler, Atlan1
  * @version 1.0
  */

@@ -8,7 +8,7 @@ import java.util.Map;
 import team.ApiPlus.API.Effect.Effect;
 import team.ApiPlus.Util.Utils;
 
-/** 
+/** EffectManager of API+, used to registering and building new Effects
  * @author Atlan1
  * @version 1.0
  */

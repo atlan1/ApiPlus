@@ -1,6 +1,6 @@
 package team.ApiPlus.API.Effect;
 
-/**
+/** Represents a Effect that will be performed on an given Location
  * @author Atlan1
  * @version 1.0
  */

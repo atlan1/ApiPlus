@@ -7,7 +7,7 @@ import team.ApiPlus.API.Type.BlockType;
 import team.ApiPlus.API.Type.ItemType;
 import team.ApiPlus.Util.Utils;
 
-/**
+/** TypeManager of API+, used to register custom item and block types to build instances from
  * @author Atlan1
  * @version 1.0
  */

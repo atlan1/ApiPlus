@@ -5,8 +5,8 @@ import java.util.List;
 
 import team.ApiPlus.API.PropertyHolder;
 
-/**
- * @author , Atlan1
+/** PropertyManager of API+ - Contains useful methods for transferring properties between PropertyHolders
+ * @author Atlan1
  * @version 1.0
  */
 public class PropertyManager {

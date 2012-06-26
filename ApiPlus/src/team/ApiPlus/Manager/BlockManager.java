@@ -12,7 +12,7 @@ import team.ApiPlus.API.Type.BlockType;
 import team.ApiPlus.Util.Utils;
 
 /**
- * API+ Custom Item Manager.
+ * API+ Custom Block Manager - used for managing and building custom items
  * @author SirTyler, Atlan1
  * @version 1.0
  */
