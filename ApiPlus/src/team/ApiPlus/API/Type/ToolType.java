@@ -29,6 +29,7 @@ public class ToolType extends GenericCustomTool implements MaterialType{
 	public boolean onItemInteract(SpoutPlayer player, SpoutBlock block,
 			org.bukkit.block.BlockFace face) {
 		try {
+			if(!ApiPlus.hooks.containsKey("LWC")) return true;
 			LWC lwc = ((LWCPlugin) ApiPlus.hooks.get("LWC")).getLWC();
 			if (lwc != null) {
 				lwc.wrapPlayer(player.getPlayer());

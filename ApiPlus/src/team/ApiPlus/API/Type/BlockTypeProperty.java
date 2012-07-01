@@ -51,5 +51,11 @@ public abstract class BlockTypeProperty extends BlockType implements PropertyHol
 		if(properties.containsKey(id))
 			properties.put(id, property);
 	}
+	
+	@Override
+	public void setProperty(String id, Object property) {
+		addProperty(id, property);
+		editProperty(id, property);
+	}
 
 }

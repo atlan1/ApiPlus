@@ -51,4 +51,10 @@ public class PropertyContainer implements PropertyHolder{
 			properties.put(id, property);
 	}
 	
+	@Override
+	public void setProperty(String id, Object property) {
+		addProperty(id, property);
+		editProperty(id, property);
+	}
+	
 }
