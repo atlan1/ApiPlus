@@ -77,28 +77,46 @@ public class LoadoutManager {
 	 * @return String Returns String message of any errors that have occurred.
 	 */
 	public String read() {
-		StringBuilder b = new StringBuilder("Could not Load:");
+		StringBuilder b = new StringBuilder("[API+][Loadout Manager]:");
 		for(Loadout l : list) {
-			if(ApiPlus.hooks.containsKey(l.getPlugin())) {
-				Plugin p = Bukkit.getServer().getPluginManager().getPlugin(l.getPlugin());
-				if(p instanceof PluginPlus) {
-					Integer pVer = Integer.parseInt(p.getDescription().getVersion().replace(".", ""));
-					Integer lpVer = Integer.parseInt(l.getVersion().replace(".", ""));
-					if(pVer < lpVer) {
-						b.append(l.getName() + "-Plugin version too low,");
-					} else {
-						for(FileConfiguration con : l.getConfigs()) {
-							((PluginPlus) p).loadConfig(con);
-						}
-					}
-				} else b.append(l.getName() + "-Plugin not on Server,");
-			} else b.append(l.getName() + "-Plugin not API+ Enabled,");
-		}
-		if(b.toString().equalsIgnoreCase("Could not Load:")) {
-			b.setLength(0);
-			b.append("All Loadouts Loaded with no Errors.");
+			b.append(readLoadout(l));
 		}
 		return b.toString();
+	}
+	
+	/**
+	 * Method used for Reading all loaded Loadouts for a specified Plugin.
+	 * @param p Plugin to limit reading of loadouts to.
+	 * @return String Returns String message of any errors that have occured.
+	 */
+	public String read(Plugin p) {
+		StringBuilder b = new StringBuilder("[API+][LoadoutManager]:");
+		for(Loadout l : list) {
+			if(l.getPlugin().equalsIgnoreCase(p.getName())) b.append(readLoadout(l));
+		}
+		return b.toString();
+	}
+	
+	/**
+	 * Method used for Reading specfied loaded Loadout.
+	 * @param l Loadout to be read.
+	 * @return String Returns String message of any errors that have occured.
+	 */
+	public String readLoadout(Loadout l) {
+		if(ApiPlus.hooks.containsKey(l.getPlugin())) {
+			Plugin p = Bukkit.getServer().getPluginManager().getPlugin(l.getPlugin());
+			if(p instanceof PluginPlus) {
+				boolean loaded = false;
+				Integer pVer = Integer.parseInt(p.getDescription().getVersion().replaceAll("[^0-9]","").replace(".", ""));
+				Integer lpVer = Integer.parseInt(l.getPluginVersion().replaceAll("[^0-9]","").replace(".", ""));
+				if(pVer < lpVer) return (l.getName() + "-Plugin version too low");
+				else for(FileConfiguration con : l.getConfigs()) {
+					loaded = ((PluginPlus) p).loadConfig(con);
+				}
+				if(loaded) return ("Loaded Loadout:" + l.getName());
+				else return ("Unable to Fully Load Loadout:" + l.getName());
+			} else return (l.getName() + "-Plugin not on Server");
+		} else return (l.getName() + "-Plugin not API+ Enabled");
 	}
 	
 	/**
@@ -113,6 +131,7 @@ public class LoadoutManager {
 			for(File f : l) {
 				if(f.toString().endsWith(".zip")) {
 					list.add(Loadout.create(f));
+					Utils.debug("Added " + Loadout.create(f).getName());
 				}
 			}
 		}

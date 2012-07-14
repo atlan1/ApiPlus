@@ -51,7 +51,7 @@ public class Loadout {
 					if(child.getName().equalsIgnoreCase("info.yml")) {
 						info.put("NAME",con.getString("loadout-name"));
 						info.put("VERSION", con.getString("loadout-version"));
-						info.put("AUTHORS", con.getString("loadout-authros"));
+						info.put("AUTHORS", con.getString("loadout-authors"));
 						info.put("PLUGIN", con.getString("loadout-plugin"));
 						info.put("PVERSION", con.getString("loadout-plugin-version"));
 						Utils.info(String.format("Loadout: %s has now been loaded.", getName()));

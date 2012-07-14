@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+
 import team.ApiPlus.API.Type.BlockType;
 import team.ApiPlus.API.Type.ItemType;
 import team.ApiPlus.Manager.BlockManager;
@@ -18,8 +19,12 @@ import team.ApiPlus.Manager.TypeManager;
  * @version 1.0
  */
 abstract public class PluginPlus extends JavaPlugin {
-	
-	abstract public void loadConfig(FileConfiguration con);
+	/**
+	 * Abstract Method overwritten for Loading given FileConfigurations.
+	 * @param con FileConfiguration to read.
+	 * @return boolean True if action completed succesfully, False if not.
+	 */
+	abstract public boolean loadConfig(FileConfiguration con);
 	
 	/**
 	 * Method used for building an Item and Adding it to the ItemManager.

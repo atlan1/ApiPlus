@@ -68,7 +68,6 @@ public class ApiPlus extends JavaPlugin {
 		eManager = EffectManager.getInstance();
 		cManager = ConfigManager.getInstance();
 		lManager.loadAll();
-		Utils.debug(lManager.read());
 		hook();
 		loadGeneral();
 		registerDefaultMaterialTypes();

@@ -1,6 +1,6 @@
 name: ApiPlus
 main: team.ApiPlus.ApiPlus
-version: 0.3
+version: 1
 authors: [SirTyler, Atlan1]
 depend: [Spout]
 softdepend: [WorldGaurd, LWC]
