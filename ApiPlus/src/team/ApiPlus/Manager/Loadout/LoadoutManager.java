@@ -73,6 +73,23 @@ public class LoadoutManager {
 	}
 	
 	/**
+	 * Method used for retrieving all Loadouts from Manager used by a specific plugin.
+	 * @param plugin Plugin to check for.
+	 * @return List<Loadout> List of all found Loadouts.
+	 */
+	public List<Loadout> getLoadouts(Plugin plugin) {
+		List<Loadout> newlist = new ArrayList<Loadout>();
+		for(Loadout l : list) {
+			if(l.getPlugin().equalsIgnoreCase(plugin.getName())) newlist.add(l);
+		}
+		return newlist;
+	}
+	
+	public List<Loadout> getAllLoadouts() {
+		return list;
+	}
+	
+	/**
 	 * Method used for Reading all loaded Loadouts.
 	 * @return String Returns String message of any errors that have occurred.
 	 */
@@ -113,8 +130,8 @@ public class LoadoutManager {
 				else for(FileConfiguration con : l.getConfigs()) {
 					loaded = ((PluginPlus) p).loadConfig(con);
 				}
-				if(loaded) return ("Loaded Loadout:" + l.getName());
-				else return ("Unable to Fully Load Loadout:" + l.getName());
+				if(loaded) return ("Read Loadout:" + l.getName());
+				else return ("Unable to Fully Read Loadout:" + l.getName());
 			} else return (l.getName() + "-Plugin not on Server");
 		} else return (l.getName() + "-Plugin not API+ Enabled");
 	}
@@ -130,8 +147,7 @@ public class LoadoutManager {
 			File[] l = main.listFiles();
 			for(File f : l) {
 				if(f.toString().endsWith(".zip")) {
-					list.add(Loadout.create(f));
-					Utils.debug("Added " + Loadout.create(f).getName());
+					Loadout.create(f);
 				}
 			}
 		}

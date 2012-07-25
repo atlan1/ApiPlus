@@ -7,11 +7,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -25,6 +31,7 @@ import team.ApiPlus.API.Effect.Default.ParticleEffect;
 import team.ApiPlus.API.Effect.Default.PlaceEffect;
 import team.ApiPlus.API.Effect.Default.PotionEffect;
 import team.ApiPlus.API.Effect.Default.SpawnEffect;
+import team.ApiPlus.API.Mob.EntityReplacer;
 import team.ApiPlus.API.Type.BlockType;
 import team.ApiPlus.API.Type.BlockTypeEffect;
 import team.ApiPlus.API.Type.BlockTypeEffectPlusProperty;
@@ -33,11 +40,14 @@ import team.ApiPlus.API.Type.ItemType;
 import team.ApiPlus.API.Type.ItemTypeEffect;
 import team.ApiPlus.API.Type.ItemTypeEffectPlusProperty;
 import team.ApiPlus.API.Type.ItemTypeProperty;
+import team.ApiPlus.Enums.MobType;
 import team.ApiPlus.Manager.BlockManager;
 import team.ApiPlus.Manager.ConfigManager;
 import team.ApiPlus.Manager.EffectManager;
 import team.ApiPlus.Manager.ItemManager;
+import team.ApiPlus.Manager.MobManager;
 import team.ApiPlus.Manager.TypeManager;
+import team.ApiPlus.Manager.Loadout.Loadout;
 import team.ApiPlus.Manager.Loadout.LoadoutManager;
 import team.ApiPlus.Util.ConfigUtil;
 import team.ApiPlus.Util.FileUtil;
@@ -57,6 +67,10 @@ public class ApiPlus extends JavaPlugin {
 	public static Map<String,Plugin> hooks = new HashMap<String,Plugin>();
 	public static List<Material> transparentMaterials = new ArrayList<Material>();
 	
+	
+	
+	private boolean customMobs;
+	
 	@Override
 	public void onEnable() {
 		instance = this;
@@ -70,6 +84,16 @@ public class ApiPlus extends JavaPlugin {
 		lManager.loadAll();
 		hook();
 		loadGeneral();
+		/*if(customMobs) {
+			Bukkit.getScheduler().scheduleAsyncDelayedTask(this, new Runnable() {
+
+				@Override
+				public void run() {
+					beginMobAPI();
+				}
+			},100);
+		}*/
+		beginMobAPI();
 		registerDefaultMaterialTypes();
 		registerDefaultEffectTypes();
 		Utils.info(String.format("API+ Version:%s Enabled.", version));
@@ -113,7 +137,7 @@ public class ApiPlus extends JavaPlugin {
 			for(ItemStack i:ConfigUtil.parseItems(con.getString("transparent-materials"))) {
 					transparentMaterials.add(i.getType());
 			}
-			
+			customMobs = Boolean.valueOf(con.getString("mobs","false"));
 		} else return;
 	}
 	
@@ -161,5 +185,35 @@ public class ApiPlus extends JavaPlugin {
 	 */
 	public static ApiPlus getInstance() {
 		return instance;
+	}
+	
+	private void beginMobAPI() {
+		MobManager.create();
+		MobManager.getInstance().overwriteNewMob();
+		Bukkit.getPluginManager().registerEvents(new EntityReplacer(), getInstance());
+		Bukkit.getLogger().log(Level.INFO, "-------MobAPI Enabled-------");
+	}
+	
+	
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+		if(args.length == 1) {
+			Plugin plugin = Bukkit.getPluginManager().getPlugin(args[0]);
+			if(plugin != null) {
+				sender.sendMessage(ChatColor.BLUE + "--------Loadouts--------");
+				for(Loadout l : lManager.getLoadouts(plugin)) {
+					sender.sendMessage(ChatColor.GRAY + String.format("- %s:%s ~ %s", l.getName(), l.getVersion(), l.getAuthors()[0]));
+				}
+				if(lManager.getLoadouts(plugin) == null || lManager.getLoadouts(plugin).isEmpty()) sender.sendMessage(ChatColor.RED + "EMPTY");
+				return true;
+			} else sender.sendMessage(ChatColor.RED + "Error: No plugin by that name found");
+		} else {
+			sender.sendMessage(ChatColor.BLUE + "--------Loadouts--------");
+			for(Loadout l : lManager.getAllLoadouts()) {
+				sender.sendMessage(ChatColor.GRAY + String.format("- %s:%s ~ %s", l.getName(), l.getVersion(), l.getAuthors()[0]));
+			}
+			if(lManager.getAllLoadouts() == null || lManager.getAllLoadouts().isEmpty()) sender.sendMessage(ChatColor.RED + "EMPTY");
+			return true;
+		}
+		return false;
 	}
 }

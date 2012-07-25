@@ -4,3 +4,8 @@ version: 1
 authors: [SirTyler, Atlan1]
 depend: [Spout]
 softdepend: [WorldGaurd, LWC]
+commands:
+    loadout:
+        description: API+ Loadout Command.
+        aliases: [load,l+]
+        usage: /loadout - Shows API+ Loadouts

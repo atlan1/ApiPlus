@@ -7,11 +7,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import team.ApiPlus.ApiPlus;
 import team.ApiPlus.API.Type.BlockType;
 import team.ApiPlus.API.Type.ItemType;
 import team.ApiPlus.Manager.BlockManager;
 import team.ApiPlus.Manager.ItemManager;
 import team.ApiPlus.Manager.TypeManager;
+import team.ApiPlus.Util.Metrics;
+import team.ApiPlus.Util.Metrics.Graph;
 
 /**
  * PluginPlus class for use with API+.
@@ -19,6 +22,24 @@ import team.ApiPlus.Manager.TypeManager;
  * @version 1.0
  */
 abstract public class PluginPlus extends JavaPlugin {
+	
+	public void registerPluginPlus() {
+		try {
+			ApiPlus.addHook(this);
+			Metrics met = new Metrics(this);
+			Graph g = met.createGraph("Plugins using Api+");
+			g.addPlotter(new Metrics.Plotter(this.getName()) {
+				@Override
+				public int getValue() {
+					return 1;
+				}
+			});
+			met.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * Abstract Method overwritten for Loading given FileConfigurations.
 	 * @param con FileConfiguration to read.
