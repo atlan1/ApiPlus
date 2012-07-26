@@ -90,7 +90,16 @@ public class ItemManager {
 		ItemType item;
 		Constructor<? extends ItemType> con = type.getConstructor(Plugin.class, String.class, String.class);
 		item = con.newInstance(p,name,texture);
+		addItem(item);
 		return item;
+	}
+	
+	
+	/**Method used to get all items as list
+	 * @return A list of all added Item Types
+	 */
+	public List<ItemType> getItems() {
+		return new ArrayList<ItemType>(list);
 	}
 	
 	/**

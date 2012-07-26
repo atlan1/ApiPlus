@@ -57,6 +57,16 @@ public class TypeManager {
 	}
 	
 	/**
+	 * Method used to check if a Type class is already registered.
+	 * @param name String name of Type to check.
+	 * @return boolean True if already taken, false it not.
+	 */
+	public boolean checkItemType(Class<? extends ItemType> type) {
+		if(itemtypes.values().contains(type)) return true;
+		else return false;
+	}
+	
+	/**
 	 * Method used to get Item Type by name.
 	 * @param name String name of Type to find.
 	 * @return CustomItem Returns found CustomItem, null if none found.
@@ -99,6 +109,16 @@ public class TypeManager {
 	 */
 	public boolean checkBlockType(String name) {
 		if(blocktypes.containsKey(name)) return true;
+		else return false;
+	}
+	
+	/**
+	 * Method used to check if Type class is already registered.
+	 * @param name String name of Type to check.
+	 * @return boolean True if already taken, false it not.
+	 */
+	public boolean checkBlockType(Class<? extends BlockType> type) {
+		if(blocktypes.values().contains(type)) return true;
 		else return false;
 	}
 	

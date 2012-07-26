@@ -96,6 +96,7 @@ public class ApiPlus extends JavaPlugin {
 		beginMobAPI();
 		registerDefaultMaterialTypes();
 		registerDefaultEffectTypes();
+		new ApiPlusListener(this);
 		Utils.info(String.format("API+ Version:%s Enabled.", version));
 	}
 	

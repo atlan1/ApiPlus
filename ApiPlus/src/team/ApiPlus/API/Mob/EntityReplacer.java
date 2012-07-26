@@ -29,7 +29,7 @@ public class EntityReplacer implements Listener {
 		net.minecraft.server.Entity mcEntity = (((CraftEntity) entity).getHandle());
 		if (creatureType == EntityType.ZOMBIE && mcEntity instanceof APIEntityZombie == false){
 			APIEntityZombie zed = new APIEntityZombie(mcWorld,test);
-			System.out.println(test);
+//			System.out.println(test);
 			if(zed != null && mcWorld != null) { 
 				zed.setPosition(location.getX(), location.getY(), location.getZ());
 				mcWorld.removeEntity(mcEntity);

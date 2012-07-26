@@ -87,7 +87,15 @@ public class BlockManager {
 		BlockType block;
 		Constructor<? extends BlockType> con = type.getConstructor(Plugin.class, String.class, boolean.class);
 		block = con.newInstance(p,name,isOpaque);
+		addBlock(block);
 		return block;
+	}
+	
+	/**Method used to get all blocks as list
+	 * @return A list of all added Block Types
+	 */
+	public List<BlockType> getBlocks() {
+		return new ArrayList<BlockType>(list);
 	}
 	
 	/**

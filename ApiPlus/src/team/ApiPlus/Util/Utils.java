@@ -17,11 +17,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 import org.getspout.spoutapi.inventory.SpoutItemStack;
+import org.getspout.spoutapi.player.SpoutPlayer;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.flags.DefaultFlag;
 
 import team.ApiPlus.ApiPlus;
+import team.ApiPlus.API.Type.BlockType;
+import team.ApiPlus.API.Type.ItemType;
+import team.ApiPlus.API.Type.MaterialType;
+import team.ApiPlus.Manager.BlockManager;
+import team.ApiPlus.Manager.ItemManager;
 
 /**
  * Utility Class containing cross-class methods.
@@ -30,6 +36,48 @@ import team.ApiPlus.ApiPlus;
  */
 public class Utils {
 	private static boolean useDebug = true;
+	
+	
+	public synchronized static void sendNotification(SpoutPlayer sp, String title, String text, ItemStack icon, int duration) {
+			if(title.length()>26){
+				warning("Too long notification. Check your item names.");
+				title = title.replace(title.substring(25, title.length()-1),"");
+			}
+			if(text.length()>26){
+				warning("Too long notification. Check your item names.");
+				text = text.replace(text.substring(25, text.length()-1),"");
+			}
+			sp.sendNotification(title, text, icon, duration);
+	}
+	
+	
+	/**Method used to check weather a material was created by API+
+	 * @param name The material name to check
+	 * @return True if material belongs to API+, else False
+	 */
+	public synchronized static boolean isApiPlusMaterial(String name) {
+		for(ItemType i : ItemManager.getInstance().getItems())
+			if(i.getName().equals(name))
+				return true;
+		for(BlockType b : BlockManager.getInstance().getBlocks())
+			if(b.getName().equals(name))
+				return true;
+		return false;
+	}
+	
+	/** Method used to get a certain material created by API+ by the name
+	 * @param name Material name to get
+	 * @return The Material with the given name
+	 */
+	public synchronized static MaterialType getApiPlusMaterial(String name) {
+		for(ItemType i : ItemManager.getInstance().getItems())
+			if(i.getName().equals(name))
+				return i;
+		for(BlockType b : BlockManager.getInstance().getBlocks())
+			if(b.getName().equals(name))
+				return b;
+		return null;
+	}
 	
 	/**
 	 * Method used for checking if a block is defined as transparent
