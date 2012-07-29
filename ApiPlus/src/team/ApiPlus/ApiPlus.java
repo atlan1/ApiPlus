@@ -93,7 +93,7 @@ public class ApiPlus extends JavaPlugin {
 				}
 			},100);
 		}*/
-		beginMobAPI();
+//		beginMobAPI();
 		registerDefaultMaterialTypes();
 		registerDefaultEffectTypes();
 		new ApiPlusListener(this);

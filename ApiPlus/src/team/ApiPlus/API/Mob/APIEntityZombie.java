@@ -25,7 +25,7 @@ public class APIEntityZombie extends EntityZombie {
 	}
 
 	public void setAPIMob(APIMob _mob) {
-		System.out.println(_mob);
+//		System.out.println(_mob);
 		mob = _mob;
 		//health = 2;
 	}
