@@ -22,6 +22,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import team.ApiPlus.API.PluginPlus;
 import team.ApiPlus.API.Effect.Default.BreakEffect;
 import team.ApiPlus.API.Effect.Default.BurnEffect;
 import team.ApiPlus.API.Effect.Default.ExplosionEffect;
@@ -176,6 +177,9 @@ public class ApiPlus extends JavaPlugin {
 		if(hooks.containsValue(p)) return false;
 		else {
 			hooks.put(p.getName(), p);
+			if(p instanceof PluginPlus) {
+				LoadoutManager.getInstance().read(p);
+			}
 			return true;
 		}
 	}
