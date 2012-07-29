@@ -26,7 +26,7 @@ abstract public class PluginPlus extends JavaPlugin {
 	public void registerPluginPlus() {
 		try {
 			ApiPlus.addHook(this);
-			Metrics met = new Metrics(this);
+			Metrics met = new Metrics(ApiPlus.getInstance());
 			Graph g = met.createGraph("Plugins using Api+");
 			g.addPlotter(new Metrics.Plotter(this.getName()) {
 				@Override
