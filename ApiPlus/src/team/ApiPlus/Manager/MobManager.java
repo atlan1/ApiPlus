@@ -1,15 +1,23 @@
 package team.ApiPlus.Manager;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.bukkit.entity.EntityType;
 
 import team.ApiPlus.API.Mob.APIEntityZombie;
-import net.minecraft.server.EntityLiving;
+import team.ApiPlus.API.Mob.APIMob;
+import team.ApiPlus.Util.Utils;
 
+/**
+ * MobManager class for use with API+.
+ * @author SirTyler, Atlan1
+ * @version 1.0
+ */
 public class MobManager {
 	private static MobManager instance;
-	private List<EntityLiving> newMobs = new ArrayList<EntityLiving>();
+	private Map<EntityType,APIMob> map = new HashMap<EntityType, APIMob>();
 	
 	private MobManager() {
 		instance = this;
@@ -20,7 +28,7 @@ public class MobManager {
 		else return MobManager.getInstance();
 	}
 	
-	public void overwriteNewMob() {
+	private void overwriteNewMob(EntityType type) {
 		try{
 			@SuppressWarnings("rawtypes")
 			Class[] args = new Class[3];
@@ -31,14 +39,31 @@ public class MobManager {
 			Method a = net.minecraft.server.EntityTypes.class.getDeclaredMethod("a", args);
 			a.setAccessible(true);
 			
-			a.invoke(a, APIEntityZombie.class, "Zombie", 54);
+			switch(type) {
+			case ZOMBIE:
+				a.invoke(a, APIEntityZombie.class, "Zombie", 54);
+				break;
+			}
 		}catch (Exception e){
 			e.printStackTrace();
 		}
 	}
 	
-	public List<EntityLiving> getList() {
-		return newMobs;
+	public Map<EntityType,APIMob> getMap() {
+		return map;
+	}
+	
+	public void setNewAPIMob(APIMob mob) {
+		switch(mob.getBase()) {
+		case ZOMBIE:
+			map.put(mob.getBase(), mob);
+			overwriteNewMob(mob.getBase());
+			APIEntityZombie.setAPIMob(mob);
+			Utils.debug("APIEntityZombie new Mob set.");
+			break;
+		default:
+			Utils.debug("Not a changeable Mob");
+		}
 	}
 
 	public static MobManager getInstance() {

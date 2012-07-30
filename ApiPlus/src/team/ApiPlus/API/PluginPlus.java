@@ -23,6 +23,9 @@ import team.ApiPlus.Util.Metrics.Graph;
  */
 abstract public class PluginPlus extends JavaPlugin {
 	
+	/**
+	 * Method used to register this plugin to API+.
+	 */
 	public void registerPluginPlus() {
 		try {
 			ApiPlus.addHook(this);
