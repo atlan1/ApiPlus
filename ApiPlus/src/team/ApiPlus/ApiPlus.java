@@ -41,7 +41,6 @@ import team.ApiPlus.API.Type.ItemType;
 import team.ApiPlus.API.Type.ItemTypeEffect;
 import team.ApiPlus.API.Type.ItemTypeEffectPlusProperty;
 import team.ApiPlus.API.Type.ItemTypeProperty;
-import team.ApiPlus.Enums.MobType;
 import team.ApiPlus.Manager.BlockManager;
 import team.ApiPlus.Manager.ConfigManager;
 import team.ApiPlus.Manager.EffectManager;
@@ -85,16 +84,7 @@ public class ApiPlus extends JavaPlugin {
 		lManager.loadAll();
 		hook();
 		loadGeneral();
-		/*if(customMobs) {
-			Bukkit.getScheduler().scheduleAsyncDelayedTask(this, new Runnable() {
-
-				@Override
-				public void run() {
-					beginMobAPI();
-				}
-			},100);
-		}*/
-//		beginMobAPI();
+		beginMobAPI();
 		registerDefaultMaterialTypes();
 		registerDefaultEffectTypes();
 		new ApiPlusListener(this);
@@ -193,10 +183,14 @@ public class ApiPlus extends JavaPlugin {
 	}
 	
 	private void beginMobAPI() {
+		if(!customMobs) return;
 		MobManager.create();
-		MobManager.getInstance().overwriteNewMob();
 		Bukkit.getPluginManager().registerEvents(new EntityReplacer(), getInstance());
 		Bukkit.getLogger().log(Level.INFO, "-------MobAPI Enabled-------");
+	}
+	
+	public boolean isMobAPI() {
+		return customMobs;
 	}
 	
 	

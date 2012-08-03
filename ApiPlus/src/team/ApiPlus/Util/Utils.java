@@ -337,4 +337,18 @@ public class Utils {
 		} else
 			return true;
 	}
+	
+	/**
+	 * Method used for Converting List<ItemStack> into ItemStack[]
+	 * @param list List of ItemStack to be converted
+	 * @return ItemStack[] ItemStack Array returned.
+	 */
+	public synchronized static ItemStack[] convertToArray(List<ItemStack> list) {
+	    ItemStack[] items = new ItemStack[list.size()];
+	    for (int i = 0; i < list.size(); i++) {
+	    	items[i] = list.get(i);
+	    }
+		return items;
+	}
 }
+
