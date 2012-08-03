@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
+import java.util.Set;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
@@ -294,31 +295,33 @@ public class Utils {
 	 * Method used for getting a Sphere around given Location with given radius.
 	 * @param center Location to use as center of sphere.
 	 * @param radius Double to use as radius around center.
-	 * @return List<Block> List of blocks that make of Sphere.
+	 * @return Set<Block> Set of blocks that make of Sphere.
 	 */
-	public synchronized static List<Block> getSphere(Location center, double radius) {
-		List<Block> blockList = new ArrayList<Block>();
-	    radius += 0.5;
-	    final double radSquare = Math.pow(2, radius);
-	    final int radCeil = (int) Math.ceil(radius);
-	    final double centerX = center.getX();
-	    final double centerY = center.getY();
-	    final double centerZ = center.getZ();
-	 
-	    for(double x = centerX - radCeil; x <= centerX + radCeil; x++) {
-	        for(double y = centerY - radCeil; y <= centerY + radCeil; y++) {
-	            for(double z = centerZ - radCeil; z <= centerZ + radCeil; z++) {
-	                double distSquare = Math.pow(2, x - centerX) + Math.pow(2,y - centerY) + Math.pow(2,z - centerZ);
-	                if (distSquare > radSquare)
-	                    continue;
-	                Location currPoint = new Location(center.getWorld(), x, y, z);
-	                blockList.add(currPoint.getBlock());
-	            }
-	        }
-	    }
-	    return blockList;
-	}
-	
+	public static Set<Block> getSphere(final Location pos, final int radius) {
+		Set<Block> blocks = new HashSet<Block>();
+        double zsq, xsq, bsq = Math.pow(radius, 2);
+
+        for (int z = -radius; z <= radius; z++) {
+        	zsq = Math.pow(z, 2);
+            for (int x = -radius; x <= radius; x++) {
+            	xsq = Math.pow(x, 2);
+                for (int y = -radius; y <= radius; y++) {
+                    if ((xsq + Math.pow(y, 2) + zsq) <= bsq) {
+                        blocks.add(new Location(pos.getWorld(), pos.getBlockX() + x, pos.getBlockY() + y, pos.getBlockZ() + z).getBlock());
+                        blocks.add(new Location(pos.getWorld(), pos.getBlockX() + x, pos.getBlockY() + y, pos.getBlockZ() - z).getBlock());
+                        blocks.add(new Location(pos.getWorld(), pos.getBlockX() + x, pos.getBlockY() - y, pos.getBlockZ() - z).getBlock());
+                        blocks.add(new Location(pos.getWorld(), pos.getBlockX() - x, pos.getBlockY() - y, pos.getBlockZ() - z).getBlock());
+                        blocks.add(new Location(pos.getWorld(), pos.getBlockX() - x, pos.getBlockY() + y, pos.getBlockZ() + z).getBlock());
+                        blocks.add(new Location(pos.getWorld(), pos.getBlockX() - x, pos.getBlockY() - y, pos.getBlockZ() + z).getBlock());
+                        blocks.add(new Location(pos.getWorld(), pos.getBlockX() - x, pos.getBlockY() + y, pos.getBlockZ() - z).getBlock());
+                        blocks.add(new Location(pos.getWorld(), pos.getBlockX() + x, pos.getBlockY() - y, pos.getBlockZ() + z).getBlock());
+                    }
+                }
+            }
+        }
+        return blocks;
+    }
+    
 	/**
 	 * Method used for checking if TNT is allowed in given Region.
 	 * @param loc Location to be referenced.

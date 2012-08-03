@@ -1,21 +1,21 @@
 package team.ApiPlus.API.Effect;
 
-import java.util.List;
+import java.util.Set;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import team.ApiPlus.ApiPlus;
-import team.ApiPlus.API.Effect.Effect;
 import team.ApiPlus.API.Effect.LocationEffect;
 import team.ApiPlus.Util.Utils;
 
-/** SphereEffect - Used to perform an Effect on every Location within a Sphere of a given Radius
+/** SphereEffect - Used to perform an LocationEffect on every Location within a Sphere of a given Radius
  * @author Atlan1
  *
  */
 public class SphereEffect implements Runnable {
 
-	private Effect effect;
+	private LocationEffect effect;
 	private Location l;
 	private int radius;
 	
@@ -37,7 +37,7 @@ public class SphereEffect implements Runnable {
 			effect.performEffect(l);
 			return;
 		}
-		List<Block> list = Utils.getSphere(l, radius);
+		Set<Block> list = Utils.getSphere(l, radius);
 		for(Block b:list){
 			effect.performEffect(b.getLocation());
 		}
@@ -50,7 +50,7 @@ public class SphereEffect implements Runnable {
 		Bukkit.getScheduler().scheduleSyncDelayedTask(ApiPlus.getInstance(), this);
 	}
 	
-	public void setEffect(Effect e){
+	public void setEffect(LocationEffect e){
 		effect = e;
 	}
 	

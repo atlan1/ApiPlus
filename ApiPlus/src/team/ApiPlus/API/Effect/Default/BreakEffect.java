@@ -18,7 +18,7 @@ public class BreakEffect implements LocationEffect{
 	private float potency = .0f;
 	
 	public BreakEffect(Object...args) {
-		this.potency = (Float) args[0];
+		this.potency = ((Number) args[0]).floatValue();
 	}
 
 	@Override
