@@ -60,7 +60,8 @@ public class PropertyManager {
 	public static Map<String, Object> getPropertiesInstanceOf(PropertyHolder p, Class<?> c, boolean invert) {
 		Map<String, Object> values = new HashMap<String, Object>();
 		for(Object o : new HashSet<Object>(p.getProperties().values())){
-			if(!(c.isInstance(o)^!invert)){
+//			System.out.print("Object: "+o.getClass()+"; Class: "+c+"; Invert: "+invert+"; Check: "+(c.isInstance(o)^invert));
+			if(c.isInstance(o)^invert){
 				for (Entry<String, Object> entry : p.getProperties().entrySet()) {
 			         if (o.equals(entry.getValue())) {
 			             values.put(entry.getKey(), o);
@@ -80,7 +81,8 @@ public class PropertyManager {
 	public static Map<String, Object> getPropertiesAssignableFrom(PropertyHolder p, Class<?> c, boolean invert) {
 		Map<String, Object> values = new HashMap<String, Object>();
 		for(Object o : new HashSet<Object>(p.getProperties().values())){
-			if(!(o.getClass().isAssignableFrom(c)^!invert)){
+//			System.out.print("Object: "+o.getClass()+"; Class: "+c+"; Invert: "+invert+"; Check: "+(c.isAssignableFrom(o.getClass())^invert));
+			if(c.isAssignableFrom(o.getClass())^invert){
 				for (Entry<String, Object> entry : p.getProperties().entrySet()) {
 			         if (o.equals(entry.getValue())) {
 			             values.put(entry.getKey(), o);
