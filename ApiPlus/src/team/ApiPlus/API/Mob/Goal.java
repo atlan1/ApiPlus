@@ -49,6 +49,11 @@ import net.minecraft.server.PathfinderGoalSwell;
 import net.minecraft.server.PathfinderGoalTakeFlower;
 import net.minecraft.server.PathfinderGoalTempt;
 
+/**
+ * Enum for Minecraft Mob AI
+ * @author SirTyler
+ * @version 1.0
+ */
 public enum Goal {
 	ArrowAttack(0),AvoidPlayer(1),Beg(2),BreakDoor(3),Breed(4),DefendVillage(5),
 	DoorInteract(6),EatTile(7),FleeSun(8),Float(9),FollowOwner(10),FollowParent(11),
@@ -64,6 +69,7 @@ public enum Goal {
 	@SuppressWarnings("rawtypes")
 	private Class c=HumanEntity.class;
 	private float b = 23.0F;
+	private float range = 16.0F;
 	@SuppressWarnings("unused")
 	private int i=1;
 	private int index = 0;
@@ -73,44 +79,96 @@ public enum Goal {
 		goalID = i;
 	}
 	
+	/**
+	 * Method used for setting Entity used by PathfinderGoal creation.
+	 * @param ent Entity to be set.
+	 * @return Goal
+	 */
 	public Goal setEntity(Entity ent) {
 		this.ent = ent;
 		return this;
 	}
 	
-	public Goal setID(int i) {
+	/**
+	 * Method used for setting int used by PathfinderGoal creation.
+	 * @param i int to be set.
+	 * @return Goal
+	 */
+	public Goal setInt(int i) {
 		this.i = i;
 		return this;
 	}
 	
+	/**
+	 * Method used for setting float used by PathfinderGoal creation.
+	 * @param f float to be set.
+	 * @return Goal
+	 */
 	public Goal setFloat(float f) {
 		this.b = f;
 		return this;
 	}
 	
+	/**
+	 * Method used for setting Mobs visual range, used in creation of Zombie Entity.
+	 * @param f float to be set.
+	 * @return Goal
+	 */
+	public Goal setRange(float f) {
+		this.range = f;
+		return this;
+	}
+	
+	/**
+	 * Method used for setting Class used by PathfinderGoal creation.
+	 * @param c Class to be set.
+	 * @return Goal
+	 */
 	public Goal setClass(Class<?> c) {
 		this.c = c;
 		return this;
 	}
 	
+	/**
+	 * Method used for setting Index used by PathfinderGoal creation.
+	 * @param i int to be set.
+	 * @return Goal
+	 */
 	public Goal setIndex(int i) {
 		index = i;
 		return this;
 	}
 	
+	/**
+	 * Method used for getting Index.
+	 * @return int Index.
+	 */
 	public int getIndex() {
 		return index;
 	}
 
+	/**
+	 * Method used for getting the PathfinderGoal created.
+	 * @return PathfinderGoal
+	 */
 	public PathfinderGoal getUse() {
 		return use;
 	}
-
+	
+	/**
+	 * Method used for setting the PathfinderGoal.
+	 * @param use PathfinderGoal 
+	 * @return Goal
+	 */
 	public Goal setUse(PathfinderGoal use) {
 		this.use = use;
 		return this;
 	}
 	
+	/**
+	 * Method used for building the PathfinderGoal object based on GoalID.
+	 * @param i GoalID to use.
+	 */
 	public void build(int i) {
 		try {
             if(i==0)setUse(new PathfinderGoalArrowAttack((EntityLiving)ent, b, 1, 60));
@@ -129,14 +187,14 @@ public enum Goal {
 			if(i==13)setUse(new PathfinderGoalInteract((EntityLiving)ent, c, b));
 			if(i==14)setUse(new PathfinderGoalJumpOnBlock((EntityOcelot)ent, b));
 			if(i==15)setUse(new PathfinderGoalLeapAtTarget((EntityLiving)ent, b));
-			if(i==16)setUse(new PathfinderGoalLookAtPlayer((EntityLiving)ent, c, i));
+			if(i==16)setUse(new PathfinderGoalLookAtPlayer((EntityLiving)ent, c, range));
 			if(i==17)setUse(null);
 			if(i==18)setUse(new PathfinderGoalMeleeAttack((EntityLiving)ent, c, b, false));
 			if(i==19)setUse(new PathfinderGoalMoveIndoors((EntityCreature)ent));
 			if(i==20)setUse(new PathfinderGoalMoveThroughVillage((EntityCreature)ent, b, false));
 			if(i==21)setUse(new PathfinderGoalMoveTowardsRestriction((EntityCreature)ent, b));
 			if(i==22)setUse(new PathfinderGoalMoveTowardsTarget((EntityCreature)ent, b, b));
-			if(i==23)setUse(new PathfinderGoalNearestAttackableTarget((EntityCreature)ent, c, b, 0, false));
+			if(i==23)setUse(new PathfinderGoalNearestAttackableTarget((EntityCreature)ent, c, range, 0, false));
 			if(i==24)setUse(new PathfinderGoalOfferFlower((EntityIronGolem)ent));
 			if(i==25)setUse(new PathfinderGoalOpenDoor((EntityLiving)ent, false));
 			if(i==26)setUse(new PathfinderGoalOwnerHurtByTarget((EntityTameableAnimal)ent));
