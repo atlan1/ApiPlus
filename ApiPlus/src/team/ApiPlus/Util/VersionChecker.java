@@ -70,7 +70,7 @@ public class VersionChecker implements Listener{
 			link = (getElementValue(element,"link"));
 			String[] pubdates = (getElementValue(element,"pubDate")).split(" ");
 			pubdate = pubdates[0] + " " + pubdates[1] + " " + pubdates[2] + " " + pubdates[3];
-			version = title.replace("Guns+","").replaceAll("\\[", "").replaceAll("\\]", "").replace(" ", "");
+			version = title.substring(title.indexOf('[')).replaceAll("\\[", "").replaceAll("\\]", "").replace(" ", "");
 			thisversion = plugin.getDescription().getVersion().replace("-DEV", "");
 			Bukkit.getPluginManager().registerEvents(this, plugin);
 			check();
@@ -78,7 +78,7 @@ public class VersionChecker implements Listener{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void check() {
 		if(!isCurrent()) {
 			plugin.getLogger().log(Level.INFO, "New Version " + version + " Out!");
