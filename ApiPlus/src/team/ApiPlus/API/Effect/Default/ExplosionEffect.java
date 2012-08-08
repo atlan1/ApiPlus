@@ -18,7 +18,7 @@ public class ExplosionEffect implements LocationEffect{
 	
 
 	public ExplosionEffect(Object...args) {
-		this.size =  (Integer) args[0];
+		this.size =  ((Number) args[0]).intValue();
 	}
 
 	@Override
