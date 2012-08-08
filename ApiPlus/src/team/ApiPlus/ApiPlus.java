@@ -65,6 +65,7 @@ public class ApiPlus extends JavaPlugin {
 	private TypeManager tManager;
 	private EffectManager eManager;
 	private ConfigManager cManager;
+	private MobManager mManager;
 	public static Map<String,Plugin> hooks = new HashMap<String,Plugin>();
 	public static List<Material> transparentMaterials = new ArrayList<Material>();
 	
@@ -186,7 +187,7 @@ public class ApiPlus extends JavaPlugin {
 	
 	private void beginMobAPI() {
 		if(!customMobs) return;
-		MobManager.create();
+		mManager = MobManager.getInstance();
 		Bukkit.getPluginManager().registerEvents(new EntityReplacer(), getInstance());
 		Bukkit.getLogger().log(Level.INFO, "-------MobAPI Enabled-------");
 	}

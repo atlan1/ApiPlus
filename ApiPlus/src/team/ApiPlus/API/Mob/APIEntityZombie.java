@@ -9,6 +9,11 @@ import net.minecraft.server.MathHelper;
 import net.minecraft.server.PathfinderGoalSelector;
 import net.minecraft.server.World;
 
+/**
+ * 
+ * @author Tyler
+ *
+ */
 public class APIEntityZombie extends EntityZombie {
 	private static APIMob sMob;
 	private APIMob mob;
@@ -23,12 +28,14 @@ public class APIEntityZombie extends EntityZombie {
 		this.goalSelector = new PathfinderGoalSelector();
 		for(Goal g : mob.getGoal()) {
 			g.setEntity(this);
+			g.setRange((float) mob.getRange());
 			g.build(g.goalID);
 			this.goalSelector.a(g.getIndex(), g.getUse());
 		}
 		this.targetSelector = new PathfinderGoalSelector();
 		for(Goal g : mob.getTargets()) {
 			g.setEntity(this);
+			g.setRange((float) mob.getRange());
 			g.build(g.goalID);
 			this.targetSelector.a(g.getIndex(), g.getUse());
 		}
