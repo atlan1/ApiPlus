@@ -52,6 +52,7 @@ import team.ApiPlus.Manager.Loadout.LoadoutManager;
 import team.ApiPlus.Util.ConfigUtil;
 import team.ApiPlus.Util.FileUtil;
 import team.ApiPlus.Util.Utils;
+import team.ApiPlus.Util.VersionChecker;
 
 @SuppressWarnings("unused")
 public class ApiPlus extends JavaPlugin {
@@ -88,6 +89,7 @@ public class ApiPlus extends JavaPlugin {
 		registerDefaultMaterialTypes();
 		registerDefaultEffectTypes();
 		new ApiPlusListener(this);
+		new VersionChecker(this, "http://dev.bukkit.org/server-mods/apiplus/files.rss");
 		Utils.info(String.format("API+ Version:%s Enabled.", version));
 	}
 	
