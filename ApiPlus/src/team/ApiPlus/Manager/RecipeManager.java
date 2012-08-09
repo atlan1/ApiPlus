@@ -2,9 +2,6 @@ package team.ApiPlus.Manager;
 
 import java.util.List;
 
-import me.znickq.furnaceapi.SpoutFurnaceRecipe;
-import me.znickq.furnaceapi.SpoutFurnaceRecipes;
-
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
@@ -162,9 +159,10 @@ public class RecipeManager {
 		try {
 			if(spout){
 				if(ApiPlus.hooks.containsKey("FurnaceAPI")) {
-					SpoutFurnaceRecipe x = new SpoutFurnaceRecipe(new SpoutItemStack(input), new SpoutItemStack(result));
+					//TODO: Error with SpoutFurnaceRecipes
+					/*SpoutFurnaceRecipe x = new SpoutFurnaceRecipe(new SpoutItemStack(input), new SpoutItemStack(result));
 					SpoutFurnaceRecipes.registerSpoutRecipe(x);
-					return true;
+					return true;*/
 				}
 				return false;
 			}else{

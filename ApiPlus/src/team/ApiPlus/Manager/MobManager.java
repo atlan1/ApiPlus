@@ -7,6 +7,9 @@ import java.util.Map;
 
 import org.bukkit.entity.EntityType;
 
+import team.ApiPlus.API.Mob.APIEntityCreeper;
+import team.ApiPlus.API.Mob.APIEntitySkeleton;
+import team.ApiPlus.API.Mob.APIEntitySpider;
 import team.ApiPlus.API.Mob.APIEntityZombie;
 import team.ApiPlus.API.Mob.APIMob;
 import team.ApiPlus.Util.Utils;
@@ -36,6 +39,15 @@ public class MobManager {
 			a.setAccessible(true);
 			
 			switch(type) {
+			case CREEPER:
+				a.invoke(a, APIEntityCreeper.class, "Creeper", 50);
+				break;
+			case SKELETON:
+				a.invoke(a, APIEntitySkeleton.class, "Skeleton", 51);
+				break;
+			case SPIDER:
+				a.invoke(a, APIEntitySpider.class, "Spider", 52);
+				break;
 			case ZOMBIE:
 				a.invoke(a, APIEntityZombie.class, "Zombie", 54);
 				break;
@@ -67,15 +79,27 @@ public class MobManager {
 	 * @param mob APIMob to be loaded.
 	 */
 	public void setNewAPIMob(APIMob mob) {
+		map.put(mob.getBase(), mob);
+		overwriteNewMob(mob.getBase());
 		switch(mob.getBase()) {
 		case ZOMBIE:
-			map.put(mob.getBase(), mob);
-			overwriteNewMob(mob.getBase());
 			APIEntityZombie.setAPIMob(mob);
 			Utils.debug("APIEntityZombie new Mob set.");
 			break;
+		case SKELETON:
+			APIEntitySkeleton.setAPIMob(mob);
+			Utils.debug("APIEntitySkeleton new Mob set.");
+			break;
+		case CREEPER:
+			APIEntityCreeper.setAPIMob(mob);
+			Utils.debug("APIEntityCreeper new Mob set.");
+			break;
+		case SPIDER:
+			APIEntitySpider.setAPIMob(mob);
+			Utils.debug("APIEntitySpider new Mob set.");
+			break;
 		default:
-			Utils.debug("Not a changeable Mob");
+			Utils.debug("Not a Mutable Mob");
 		}
 	}
 	
@@ -84,15 +108,27 @@ public class MobManager {
 	 * @param mob APIMob to use as reference.
 	 */
 	public void setDefault(APIMob mob) {
+		map.remove(mob);
+		overwriteDefault(mob.getBase());
 		switch(mob.getBase()) {
 		case ZOMBIE:
-			map.remove(mob);
-			overwriteDefault(mob.getBase());
 			APIEntityZombie.setAPIMob(null);
-			Utils.debug("APIEntityZombie disabled.");
+			Utils.debug("APIEntityZombie Disabled.");
+			break;
+		case SKELETON:
+			APIEntitySkeleton.setAPIMob(null);
+			Utils.debug("APIEntitySkeleton Disabled.");
+			break;
+		case CREEPER:
+			APIEntityCreeper.setAPIMob(null);
+			Utils.debug("APIEntityCreeper Disabled.");
+			break;
+		case SPIDER:
+			APIEntitySpider.setAPIMob(null);
+			Utils.debug("APIEntitySpider Disabled.");
 			break;
 		default:
-			Utils.debug("Not a changeable Mob");
+			Utils.debug("Not a Mutable Mob");
 		}
 	}
 	

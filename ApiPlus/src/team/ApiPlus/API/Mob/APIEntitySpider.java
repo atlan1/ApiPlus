@@ -8,27 +8,26 @@ import team.ApiPlus.Util.Utils;
 import net.minecraft.server.Entity;
 import net.minecraft.server.EntityHuman;
 import net.minecraft.server.EntityLiving;
-import net.minecraft.server.EntityVillager;
-import net.minecraft.server.EntityZombie;
+import net.minecraft.server.EntitySpider;
 import net.minecraft.server.ItemStack;
 import net.minecraft.server.PathfinderGoal;
 import net.minecraft.server.*;
 import net.minecraft.server.World;
 
 /**
- * APIEntityZombie class that functions as Mutable EntityZombie
+ * APIEntitySpider class that functions as Mutable EntitySpider
  * @author SirTyler
  * @version 1.0
  */
 
-public class APIEntityZombie extends EntityZombie {
+public class APIEntitySpider extends EntitySpider {
 	private static APIMob sMob;
 	private APIMob mob;
 	private static int maxHealth = 10;
 	private static int armor = 2;
 	
     @SuppressWarnings("unchecked")
-	public APIEntityZombie(World world) {
+	public APIEntitySpider(World world) {
         super(world);
         if(sMob != null) {
         	mob = sMob;
@@ -54,15 +53,11 @@ public class APIEntityZombie extends EntityZombie {
         	this.goalSelector.a(0, new PathfinderGoalFloat(this));
             this.goalSelector.a(1, new PathfinderGoalBreakDoor(this));
             this.goalSelector.a(2, new PathfinderGoalMeleeAttack(this, EntityHuman.class, this.bw, false));
-            this.goalSelector.a(3, new PathfinderGoalMeleeAttack(this, EntityVillager.class, this.bw, true));
-            this.goalSelector.a(4, new PathfinderGoalMoveTowardsRestriction(this, this.bw));
-            this.goalSelector.a(5, new PathfinderGoalMoveThroughVillage(this, this.bw, false));
-            this.goalSelector.a(6, new PathfinderGoalRandomStroll(this, this.bw));
-            this.goalSelector.a(7, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, ((float) mob.getRange()-8)));
-            this.goalSelector.a(7, new PathfinderGoalRandomLookaround(this));
+            this.goalSelector.a(3, new PathfinderGoalRandomStroll(this, this.bw));
+            this.goalSelector.a(4, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, ((float) mob.getRange()-8)));
+            this.goalSelector.a(5, new PathfinderGoalRandomLookaround(this));
             this.targetSelector.a(1, new PathfinderGoalHurtByTarget(this, false));
             this.targetSelector.a(2, new PathfinderGoalNearestAttackableTarget(this, EntityHuman.class, (float) mob.getRange(), 0, true));
-            this.targetSelector.a(2, new PathfinderGoalNearestAttackableTarget(this, EntityVillager.class, (float) mob.getRange(), 0, false));
         } else {
         	this.getBukkitEntity().remove();
         	Utils.debug("Creation Error: APIMob is Null");
@@ -104,7 +99,7 @@ public class APIEntityZombie extends EntityZombie {
 	
 	@Override
 	protected ItemStack l(int i) {
-		System.out.println("APIEntityZombie (Method l):" + i);
+		System.out.println("APIEntitySpider (Method l):" + i);
 		if(mob.getDrops().length <= i) i = mob.getRareDrops().length;
 		return new ItemStack(mob.getRareDrops()[i].getTypeId(), mob.getRareDrops()[i].getAmount(), 0);
     }
