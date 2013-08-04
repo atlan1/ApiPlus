@@ -6,6 +6,7 @@ import org.bukkit.plugin.Plugin;
 
 import team.ApiPlus.API.EffectHolder;
 import team.ApiPlus.API.Effect.Effect;
+import team.ApiPlus.API.Property.CollectionProperty;
 
 
 /**
@@ -27,8 +28,8 @@ public abstract class BlockTypeEffectPlusProperty extends BlockTypeProperty impl
 
 	@Override
 	public void setEffects(List<Effect> effects) {
-		editProperty("EFFECTS", effects);
-		addProperty("EFFECTS", effects);
+		editProperty("EFFECTS", new CollectionProperty<Effect>(effects));
+		addProperty("EFFECTS", new CollectionProperty<Effect>(effects));
 	}
 
 }

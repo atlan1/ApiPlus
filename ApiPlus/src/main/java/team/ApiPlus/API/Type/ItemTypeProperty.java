@@ -5,39 +5,42 @@ import java.util.Map;
 
 import org.bukkit.plugin.Plugin;
 
-import team.ApiPlus.API.PropertyHolder;
+import team.ApiPlus.API.Property.Property;
+import team.ApiPlus.API.Property.PropertyHolder;
 
 /**
  * @author Atlan1
  * @version 1.0
  */
+@SuppressWarnings("rawtypes")
 public abstract class ItemTypeProperty extends ItemType implements PropertyHolder {
 
-	private Map<String, Object> properties = new HashMap<String, Object>();
+	private Map<String, Property> properties = new HashMap<String, Property>();
 	
 	public ItemTypeProperty(Plugin plugin, String name, String texture) {
 		super(plugin, name, texture);
+		
 	}
 	
 	@Override
-	public Object getProperty(String id) {
+	public Property getProperty(String id) {
 		return properties.get(id);
 	}
 
 	@Override
-	public void addProperty(String id, Object property) {
+	public void addProperty(String id, Property property) {
 		if(!properties.containsKey(id))
 			properties.put(id, property);
 	}
 
 	@Override
-	public Map<String, Object> getProperties() {
+	public Map<String, Property> getProperties() {
 		return properties;
 	}
 
 	@Override
-	public void setProperties(Map<String, Object> properties) {
-		this.properties = new HashMap<String, Object>(properties);
+	public void setProperties(Map<String, Property> properties) {
+		this.properties = new HashMap<String, Property>(properties);
 	}
 
 	@Override
@@ -47,13 +50,13 @@ public abstract class ItemTypeProperty extends ItemType implements PropertyHolde
 	}
 
 	@Override
-	public void editProperty(String id, Object property) {
+	public void editProperty(String id, Property property) {
 		if(properties.containsKey(id))
 			properties.put(id, property);
 	}
 	
 	@Override
-	public void setProperty(String id, Object property) {
+	public void setProperty(String id, Property property) {
 		addProperty(id, property);
 		editProperty(id, property);
 	}

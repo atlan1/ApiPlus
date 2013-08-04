@@ -1,10 +1,16 @@
 package team.ApiPlus.Manager;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.Map;
 
+import team.ApiPlus.ApiPlus;
 import team.ApiPlus.API.Type.BlockType;
 import team.ApiPlus.API.Type.ItemType;
+import team.ApiPlus.API.Type.MaterialType;
 import team.ApiPlus.Util.Utils;
 
 /** TypeManager of API+, used to register custom item and block types to build instances from
@@ -130,6 +136,29 @@ public class TypeManager {
 	public Class<? extends BlockType> getBlockType(String name) {
 		if(checkBlockType(name)) return blocktypes.get(name);
 		else return null;
+	}
+	
+
+	/** Method used to load an external class in the package 'ApiPlus.Materials'
+	 * @param dirpath Path to 'ApiPlus.Materials'
+	 * @param filename Name of the file
+	 * @return the loaded class
+	 * @throws MalformedURLException if URL is wrong
+	 * @throws ClassNotFoundException if class could not be found
+	 */
+	@SuppressWarnings("unchecked")
+	public Class<? extends MaterialType> loadTypeClass(String dirpath, String filename) throws MalformedURLException, ClassNotFoundException {
+		File dir = new File(dirpath);
+		ClassLoader loader = new URLClassLoader(new URL[] {dir.toURI().toURL()}, ApiPlus.class.getClassLoader());
+		String name = filename.substring(0, filename.lastIndexOf("."));
+		Class<?> clazz = loader.loadClass("ApiPlus.Materials."+name);
+		if (!(MaterialType.class.isAssignableFrom(clazz))) {
+			Utils.warning(filename+" is not an material type class!");
+			return null;
+		}
+		Class<? extends MaterialType> eClazz = (Class<? extends MaterialType>) clazz;
+		Utils.info("Loaded the material type class: "+eClazz.getName());
+		return eClazz; 
 	}
 	
 	/**

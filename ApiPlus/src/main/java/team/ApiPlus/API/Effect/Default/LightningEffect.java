@@ -33,4 +33,9 @@ public class LightningEffect implements LocationEffect{
 	public void setEffectTarget(EffectTarget et) {
 		this.et = et;
 	}
+	
+	@Override
+	public String getName() {
+		return "LIGHTNING";
+	}
 }

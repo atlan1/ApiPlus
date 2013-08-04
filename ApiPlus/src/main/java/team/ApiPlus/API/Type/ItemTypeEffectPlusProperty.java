@@ -6,6 +6,7 @@ import org.bukkit.plugin.Plugin;
 
 import team.ApiPlus.API.EffectHolder;
 import team.ApiPlus.API.Effect.Effect;
+import team.ApiPlus.API.Property.CollectionProperty;
 
 /**
  * @author Atlan1
@@ -26,8 +27,8 @@ public abstract class ItemTypeEffectPlusProperty extends ItemTypeProperty implem
 
 	@Override
 	public void setEffects(List<Effect> effects) {
-		editProperty("EFFECTS", effects);
-		addProperty("EFFECTS", effects);
+		editProperty("EFFECTS", new CollectionProperty<Effect>(effects));
+		addProperty("EFFECTS", new CollectionProperty<Effect>(effects));
 	}
 
 }

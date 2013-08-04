@@ -36,21 +36,9 @@
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>craftbukkit</artifactId>
-			<version>1.4.6-R0.2-SNAPSHOT</version>
+			<version>1.6.2-R0.1-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-	 <dependency>
-	  <groupId>com.griefcraft</groupId>
-	  <artifactId>lwc</artifactId>
-	  <version>4.1.1</version>
-	  <type>jar</type>
-	 </dependency>
-	 <dependency>
-	  <groupId>com.sk89q</groupId>
-	  <artifactId>worldguard</artifactId>
-	  <version>5.5.1</version>
-	  <type>jar</type>
-	 </dependency>
 	</dependencies>
 </project>

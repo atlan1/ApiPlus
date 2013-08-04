@@ -75,7 +75,7 @@ public class VersionChecker implements Listener{
 			Bukkit.getPluginManager().registerEvents(this, plugin);
 			check();
 		} catch (Exception e) {
-			e.printStackTrace();
+			plugin.getLogger().log(Level.WARNING, "Could not check versions due to connection problems!");
 		}
 	}
 

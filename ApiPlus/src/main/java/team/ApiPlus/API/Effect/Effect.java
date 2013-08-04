@@ -5,6 +5,11 @@ package team.ApiPlus.API.Effect;
  * @version 1.0
  */
 public interface Effect {
+	
+	/** Used to receive the effects name
+	 * @return name of the effect
+	 */
+	public String getName();
 
 	/** Used to receive the effect target of an Effect
 	 * @return A Implementation of the EffectTarget interface

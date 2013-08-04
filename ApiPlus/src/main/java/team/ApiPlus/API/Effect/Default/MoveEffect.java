@@ -68,4 +68,9 @@ public class MoveEffect implements EntityEffect{
 	public void setEffectTarget(EffectTarget et) {
 		this.et = et;
 	}
+	
+	@Override
+	public String getName() {
+		return "MOVE";
+	}
 }

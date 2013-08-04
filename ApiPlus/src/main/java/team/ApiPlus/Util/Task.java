@@ -111,13 +111,9 @@ public class Task implements Runnable {
     public void startTaskDelayed(long tickDelay) {
         startTaskDelayed(tickDelay, false);
     }
-    @SuppressWarnings("deprecation")
-	public void startTaskDelayed(long tickDelay, boolean Async) {
-        if (Async) {
-            this.taskID = this.getServer().getScheduler().scheduleAsyncDelayedTask(this.plugin, this, tickDelay);
-        } else {
+    
+    public void startTaskDelayed(long tickDelay, boolean Async) {
             this.taskID = this.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, this, tickDelay);
-        }
     }
     public void startTaskRepeating(long tickInterval) {
         startTaskRepeating(tickInterval, false);
@@ -125,12 +121,7 @@ public class Task implements Runnable {
     public void startTaskRepeating(long tickInterval, boolean Async) {
         startTaskRepeating(0, tickInterval, Async);
     }
-    @SuppressWarnings("deprecation")
-	public void startTaskRepeating(long tickDelay, long tickInterval, boolean Async) {
-        if (Async) {
-            this.taskID = this.getServer().getScheduler().scheduleAsyncRepeatingTask(this.plugin, this, tickDelay, tickInterval);
-        } else {
+    public void startTaskRepeating(long tickDelay, long tickInterval, boolean Async) {
             this.taskID = this.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, this, tickDelay, tickInterval);
-        }
     }
 }

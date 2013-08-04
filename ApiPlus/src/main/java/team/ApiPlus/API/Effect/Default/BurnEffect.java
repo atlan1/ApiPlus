@@ -33,4 +33,9 @@ public class BurnEffect implements EntityEffect{
 	public void setEffectTarget(EffectTarget et) {
 		this.et = et;
 	}
+	
+	@Override
+	public String getName() {
+		return "BURN";
+	}
 }

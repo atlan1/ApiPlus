@@ -38,4 +38,8 @@ public class SpawnEffect implements LocationEffect{
 		this.et = et;
 	}
 
+	@Override
+	public String getName() {
+		return "SPAWN";
+	}
 }

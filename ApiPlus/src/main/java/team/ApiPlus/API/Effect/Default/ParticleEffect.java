@@ -15,7 +15,7 @@ import team.ApiPlus.API.Effect.LocationEffect;
 public class ParticleEffect implements LocationEffect{
 
 	private EffectTarget et;
-
+	
 	private int amount = 0;
 	private float gravity = 0;
 	private int maxAge = 0;
@@ -29,7 +29,7 @@ public class ParticleEffect implements LocationEffect{
 		this.maxAge = (Integer) args[3];
 		this.scale = (Integer) args[4];
 	}
-
+	
 	@Override
 	public void performEffect(Object... arguments) {
 		Location loc = (Location) arguments[0];
@@ -51,5 +51,10 @@ public class ParticleEffect implements LocationEffect{
 	@Override
 	public void setEffectTarget(EffectTarget et) {
 		this.et = et;
+	}
+	
+	@Override
+	public String getName() {
+		return "PARTICLE";
 	}
 }

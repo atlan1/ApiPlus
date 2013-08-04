@@ -7,12 +7,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import team.ApiPlus.API.PropertyHolder;
+import team.ApiPlus.API.Property.Property;
+import team.ApiPlus.API.Property.PropertyHolder;
 
 /** PropertyManager of API+ - Contains useful methods for transferring properties between PropertyHolders or retrieving data 
  * @author Atlan1
  * @version 1.0
- */
+ */	
+@SuppressWarnings("rawtypes")
 public class PropertyManager {
 
 	
@@ -23,8 +25,11 @@ public class PropertyManager {
 	 */
 	public static void copyProperties(PropertyHolder input, PropertyHolder result, boolean replace){
 			for(String id:new HashSet<String>(input.getProperties().keySet())){
-				if(result.getProperty(id)!=null^replace)
+				if(result.getProperty(id)!=null && !replace){
+					//do nothing
+				}else{
 					result.setProperty(id, input.getProperty(id));
+				}
 			}
 		}
 	
@@ -62,7 +67,7 @@ public class PropertyManager {
 		for(Object o : new HashSet<Object>(p.getProperties().values())){
 //			System.out.print("Object: "+o.getClass()+"; Class: "+c+"; Invert: "+invert+"; Check: "+(c.isInstance(o)^invert));
 			if(c.isInstance(o)^invert){
-				for (Entry<String, Object> entry : p.getProperties().entrySet()) {
+				for (Entry<String, Property> entry : p.getProperties().entrySet()) {
 			         if (o.equals(entry.getValue())) {
 			             values.put(entry.getKey(), o);
 			         }
@@ -72,7 +77,7 @@ public class PropertyManager {
 		return values;
 	}
 	
-	/** Method used to get all Properties that are assignable to a certain class
+	/** Method used to get all Properties that are assignable from a certain class
 	 * @param p PropertyHolder to retrieve data from
 	 * @pararm c Class to search properties from
 	 * @param invert If true this method will search for all properties that are NOT assignable from the given class
@@ -83,7 +88,7 @@ public class PropertyManager {
 		for(Object o : new HashSet<Object>(p.getProperties().values())){
 //			System.out.print("Object: "+o.getClass()+"; Class: "+c+"; Invert: "+invert+"; Check: "+(c.isAssignableFrom(o.getClass())^invert));
 			if(c.isAssignableFrom(o.getClass())^invert){
-				for (Entry<String, Object> entry : p.getProperties().entrySet()) {
+				for (Entry<String, Property> entry : p.getProperties().entrySet()) {
 			         if (o.equals(entry.getValue())) {
 			             values.put(entry.getKey(), o);
 			         }

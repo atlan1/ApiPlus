@@ -38,4 +38,9 @@ public class ExplosionEffect implements LocationEffect{
 	public void setEffectTarget(EffectTarget et) {
 		this.et = et;
 	}
+	
+	@Override
+	public String getName() {
+		return "EXPLOSION";
+	}
 }

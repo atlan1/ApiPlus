@@ -17,7 +17,10 @@ import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
+import org.getspout.spoutapi.inventory.SpoutEnchantment;
 import org.getspout.spoutapi.inventory.SpoutItemStack;
+import org.getspout.spoutapi.material.MaterialData;
+import org.getspout.spoutapi.material.item.GenericCustomItem;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
@@ -32,8 +35,8 @@ import team.ApiPlus.Manager.ItemManager;
 
 /**
  * Utility Class containing cross-class methods.
- * @author SirTyler (Tyler Martin)
- * @version 1.0
+ * @author SirTyler (Tyler Martin), Atlan1
+ * @version 1.2
  */
 public class Utils {
 	private static boolean useDebug = true;
@@ -274,6 +277,42 @@ public class Utils {
 		return location;
 	}
 	
+	/** Method used to check if a location is looking at another including a leeway of pitch and yaw
+	 * @param loc Location to check
+	 * @param lookat Location to check if looked at
+	 * @param deltaPitch allowed difference of pitch
+	 * @param deltaYaw allowed difference of yaw
+	 * @return True if loc is looking at lookat, else false
+	 */
+	public synchronized static boolean isLookingAt(final Location loc, final Location lookat, double deltaPitch, double deltaYaw){
+		Location location = loc.clone();
+		double dx = lookat.getX() - location.getX();
+		double dy = lookat.getY() - location.getY();
+		double dz = lookat.getZ() - location.getZ();
+		double dxz = Math.sqrt(Math.pow(dx, 2) + Math.pow(dz, 2));
+		boolean check1=false, check2=false;
+		deltaYaw/=2;
+		deltaPitch/=2;
+		
+		if (dx != 0) {
+			if (dx < 0) {
+				if((float) ((-(1.5 * Math.PI - Math.atan(dz / dx))) * 180f / Math.PI)+deltaYaw>=location.getYaw()&&loc.getYaw()>=(float) ((-(1.5 * Math.PI - Math.atan(dz / dx)))* 180f / Math.PI)-deltaYaw)
+					check1 = true;
+			} else {
+				if((float) ((-(0.5 * Math.PI - Math.atan(dz / dx))) * 180f / Math.PI)+deltaYaw>=location.getYaw()&&loc.getYaw()>=(float) ((-(0.5 * Math.PI - Math.atan(dz / dx)))* 180f / Math.PI)-deltaYaw)
+					check1 = true;
+			}
+		} else if (dz < 0) {
+			if((float) (-(Math.PI)* 180f / Math.PI)+deltaYaw>=location.getYaw()&&loc.getYaw()>=(float) (-(Math.PI)* 180f / Math.PI)-deltaYaw)
+				check1 = true;
+		}
+		
+		if((float) ((- Math.atan(dy / dxz))*(180f / Math.PI))+deltaPitch>=location.getPitch()&&loc.getPitch()>=(float) ((- Math.atan(dy / dxz))*(180f / Math.PI))-deltaPitch)
+			check2 = true;
+		
+		return check1 && check2;
+	}
+	
 	/**
 	 * Method used for getting location of Player's Hand.
 	 * @param p Player to be referenced.
@@ -349,6 +388,55 @@ public class Utils {
 	    	items[i] = list.get(i);
 	    }
 		return items;
+	}
+	
+	
+	/** Method used to change the durability bar of an item stack
+	 * @param gci the material of the item stack
+	 * @param max the max durability of the material
+	 * @param i the itemstack to change
+	 * @param damage the damage to apply; Note: negative values will increase the durability
+	 * @param changeamount weather the method should reduce the stacksize if an item is destroyed or not
+	 * @return the new itemstack with changed durability
+	 */
+	public synchronized static ItemStack changeDurability(GenericCustomItem gci, int max, final ItemStack i, short damage, boolean changeamount) {
+		SpoutItemStack stack = new SpoutItemStack(i);
+		if(stack.isCustomItem()){
+			if(max<=0)  return i;
+			stack.addUnsafeEnchantment(SpoutEnchantment.MAX_DURABILITY, max);
+		    int level = new SpoutItemStack(i).getEnchantmentLevel(SpoutEnchantment.DURABILITY);
+//			System.out.println("LEVEL "+level+" OF "+max);
+			if((level+damage) >= max && changeamount){
+				SpoutItemStack newstack;
+				if(stack.getAmount() > 1){
+					newstack = new SpoutItemStack(gci, (stack.getAmount()-1));
+					newstack.addUnsafeEnchantment(SpoutEnchantment.MAX_DURABILITY, max);
+					stack.addUnsafeEnchantment(SpoutEnchantment.DURABILITY, 0);
+					return newstack;
+				} else {
+					newstack = new SpoutItemStack(MaterialData.air);
+					return newstack;
+				}
+			} else {
+				SpoutItemStack stack2 = new SpoutItemStack(gci, stack.getAmount());
+				stack2.addUnsafeEnchantment(SpoutEnchantment.MAX_DURABILITY, max);
+		        stack2.addUnsafeEnchantment(SpoutEnchantment.DURABILITY, level+damage);
+				return stack2;
+			}
+		}else return null;
+	}
+	
+	/** Method used to make an itemstack unstackable
+	 * @param i ItemStack to make unstackable
+	 * @return new, unstackable itemstack;
+	 */
+	public synchronized static ItemStack makeUnstackable(ItemStack i) {
+		SpoutItemStack sp = new SpoutItemStack(i);
+		if(sp.isCustomItem()){
+			sp.addUnsafeEnchantment(SpoutEnchantment.UNSTACKABLE, 0);
+			return new SpoutItemStack(sp);
+		}
+		return i;
 	}
 }
 

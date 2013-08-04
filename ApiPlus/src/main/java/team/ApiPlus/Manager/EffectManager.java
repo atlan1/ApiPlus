@@ -1,13 +1,16 @@
 package team.ApiPlus.Manager;
 
+import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.Map;
 
 import team.ApiPlus.API.Effect.Effect;
 import team.ApiPlus.Util.Utils;
-
 /** EffectManager of API+, used to registering and building new Effects
  * @author Atlan1
  * @version 1.0
@@ -109,6 +112,28 @@ public class EffectManager {
 		if(checkEffectName(clazz)) return (String) Utils.getKey(this.effecttypes, clazz);
 		else return null;
 	}
+	
+	 /** Method used to load external effect classes in the package 'ApiPlus.Effects'
+	 * @param dirpath Path to 'ApiPlus.Effects'
+	 * @param filename name of the class file to be loaded
+	 * @return the loaded class
+	 * @throws MalformedURLException if URL is wrong
+	 * @throws ClassNotFoundException if class could not be found
+	 */
+	@SuppressWarnings("unchecked")
+	public Class<? extends Effect> loadEffectClass(String dirpath, String filename) throws MalformedURLException, ClassNotFoundException {
+			File dir = new File(dirpath);
+			ClassLoader loader = new URLClassLoader(new URL[] { dir.toURI().toURL() }, Effect.class.getClassLoader());
+			String name = filename.substring(0, filename.lastIndexOf("."));
+			Class<?> clazz = loader.loadClass("ApiPlus.Effects."+name);
+			if (!(Effect.class.isAssignableFrom(clazz))) {
+				Utils.warning(filename+" is not an effect class!");
+				return null;
+			}
+			Class<? extends Effect> eClazz = (Class<? extends Effect>) clazz;
+			Utils.info("Loaded the effect class: "+eClazz.getName());
+			return eClazz; 
+		}
 	
 	/**
 	 * Method used for getting an Instance of the API's EffectManger, Only one instance is allowed.

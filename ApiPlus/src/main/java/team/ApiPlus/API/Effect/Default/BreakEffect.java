@@ -39,4 +39,9 @@ public class BreakEffect implements LocationEffect{
 		this.et = et;
 	}
 
+	@Override
+	public String getName() {
+		return "BREAK";
+	}
+
 }

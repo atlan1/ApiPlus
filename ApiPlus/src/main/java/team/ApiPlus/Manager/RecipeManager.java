@@ -1,6 +1,7 @@
 package team.ApiPlus.Manager;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.FurnaceRecipe;
@@ -159,6 +160,7 @@ public class RecipeManager {
 		try {
 			if(spout){
 				if(ApiPlus.hooks.containsKey("FurnaceAPI")) {
+					Logger.getLogger("ApiPlus").info("FurnaceAPI not working anymore!");
 					//TODO: Error with SpoutFurnaceRecipes
 					/*SpoutFurnaceRecipe x = new SpoutFurnaceRecipe(new SpoutItemStack(input), new SpoutItemStack(result));
 					SpoutFurnaceRecipes.registerSpoutRecipe(x);

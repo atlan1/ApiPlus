@@ -41,4 +41,8 @@ public class PotionEffect implements EntityEffect{
 		this.et = et;
 	}
 	
+	@Override
+	public String getName() {
+		return "POTION";
+	}
 }

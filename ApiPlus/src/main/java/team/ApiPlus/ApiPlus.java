@@ -23,6 +23,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import team.ApiPlus.API.PluginPlus;
+import team.ApiPlus.API.Effect.Effect;
 import team.ApiPlus.API.Effect.Default.BreakEffect;
 import team.ApiPlus.API.Effect.Default.BurnEffect;
 import team.ApiPlus.API.Effect.Default.ExplosionEffect;
@@ -40,6 +41,7 @@ import team.ApiPlus.API.Type.ItemType;
 import team.ApiPlus.API.Type.ItemTypeEffect;
 import team.ApiPlus.API.Type.ItemTypeEffectPlusProperty;
 import team.ApiPlus.API.Type.ItemTypeProperty;
+import team.ApiPlus.API.Type.MaterialType;
 import team.ApiPlus.Manager.BlockManager;
 import team.ApiPlus.Manager.ConfigManager;
 import team.ApiPlus.Manager.EffectManager;
@@ -52,8 +54,9 @@ import team.ApiPlus.Util.FileUtil;
 import team.ApiPlus.Util.Utils;
 import team.ApiPlus.Util.VersionChecker;
 
+@SuppressWarnings("unused")
 public class ApiPlus extends JavaPlugin {
-
+	
 	private String version;
 	private static ApiPlus instance;
 	private ItemManager iManager;
@@ -62,33 +65,38 @@ public class ApiPlus extends JavaPlugin {
 	private TypeManager tManager;
 	private EffectManager eManager;
 	private ConfigManager cManager;
+//	private MobManager mManager;
 	public static Map<String,Plugin> hooks = new HashMap<String,Plugin>();
 	public static List<Material> transparentMaterials = new ArrayList<Material>();
-
-
-
-	private boolean customMobs;
-
+	
+	
+	
+	private boolean customMobs = false;
+	private boolean checkVersion = true;
+	
 	@Override
 	public void onEnable() {
 		instance = this;
 		version = getDescription().getVersion();
-		setiManager(ItemManager.getInstance());
-		setbManager(BlockManager.getInstance());
+		iManager = ItemManager.getInstance();
+		bManager = BlockManager.getInstance();
 		lManager = LoadoutManager.getInstance();
-		settManager(TypeManager.getInstance());
-		seteManager(EffectManager.getInstance());
+		tManager = TypeManager.getInstance();
+		eManager = EffectManager.getInstance();
 		cManager = ConfigManager.getInstance();
 		lManager.loadAll();
 		hook();
 		loadGeneral();
+		beginMobAPI();
 		registerDefaultMaterialTypes();
 		registerDefaultEffectTypes();
+		loadMaterialTypeClasses();
+		loadEffectClasses();
 		new ApiPlusListener(this);
-		//new VersionChecker(this, "http://dev.bukkit.org/server-mods/apiplus/files.rss");
+		if(checkVersion) new VersionChecker(this, "http://dev.bukkit.org/server-mods/apiplus/files.rss");
 		Utils.info(String.format("API+ Version:%s Enabled.", version));
 	}
-
+	
 	private void hook() {
 		Plugin _wg = getServer().getPluginManager().getPlugin("WorldGuard");
 		Plugin _fur = getServer().getPluginManager().getPlugin("FurnaceAPI");
@@ -106,7 +114,7 @@ public class ApiPlus extends JavaPlugin {
 			Utils.info("Hooked into LWC");
 		}
 	}
-
+	
 	private void loadGeneral() {
 		File general = new File(this.getDataFolder(), "general.yml");
 		if(FileUtil.create(general))
@@ -128,9 +136,10 @@ public class ApiPlus extends JavaPlugin {
 					transparentMaterials.add(i.getType());
 			}
 			customMobs = Boolean.valueOf(con.getString("mobs","false"));
+			checkVersion = Boolean.valueOf(con.getString("check-for-updates","true"));
 		} else return;
 	}
-
+	
 	private void registerDefaultMaterialTypes(){
 		TypeManager tm = TypeManager.getInstance();
 		tm.registerBlockType("Block", BlockType.class);
@@ -142,7 +151,7 @@ public class ApiPlus extends JavaPlugin {
 		tm.registerItemType("ItemEffect", ItemTypeEffect.class);
 		tm.registerItemType("ItemEffectPlusProperty", ItemTypeEffectPlusProperty.class);
 	}
-
+	
 	private void registerDefaultEffectTypes(){
 		EffectManager em = EffectManager.getInstance();
 		em.registerEffectType("BREAK", BreakEffect.class);
@@ -155,7 +164,52 @@ public class ApiPlus extends JavaPlugin {
 		em.registerEffectType("BURN", BurnEffect.class);
 		em.registerEffectType("POTION", PotionEffect.class);
 	}
-
+	
+	private void loadEffectClasses() {
+		String path = this.getDataFolder()+File.separator+"Effects";
+		File dir = new File(path);
+		if(!dir.exists())
+			dir.mkdir();
+		Utils.info("Loading external effect classes:");
+		if(dir.listFiles().length<=0){
+			Utils.info("---- EMPTY ----");
+		}
+		for(File f : dir.listFiles()){
+			try {
+				Class<? extends Effect> clazz = eManager.loadEffectClass(dir.getAbsolutePath(), f.getName());
+				eManager.registerEffectType(clazz.newInstance().getName(), clazz);
+			} catch (Exception e) {
+				Utils.debug(e);
+			}
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void loadMaterialTypeClasses() {
+		String path = this.getDataFolder()+File.separator+"Materials";
+		File dir = new File(path);
+		if(!dir.exists())
+			dir.mkdir();
+		Utils.info(" Loading external material type classes:");
+		if(dir.listFiles().length<=0){
+			Utils.info("---- EMPTY ----");
+		}
+		for(File f : dir.listFiles()){
+			try {
+				Class<? extends MaterialType> clazz = tManager.loadTypeClass(dir.getAbsolutePath(), f.getName());
+				if(clazz!=null)
+					if(BlockType.class.isAssignableFrom(clazz)){
+						tManager.registerBlockType(clazz.getName(), (Class<? extends BlockType>) clazz);
+					}else if(ItemType.class.isAssignableFrom(clazz)){
+						tManager.registerItemType(clazz.getName(), (Class<? extends ItemType>) clazz);
+					}
+			} catch (Exception e) {
+				Utils.debug(e);
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	/**
 	 * Method used for adding a hook into API+.
 	 * @param p Plugin to be added.
@@ -171,7 +225,7 @@ public class ApiPlus extends JavaPlugin {
 			return true;
 		}
 	}
-
+	
 	/**
 	 * Method used for getting Server's Instance of Api+.
 	 * @return ApiPlus Instance of Api+.
@@ -179,12 +233,19 @@ public class ApiPlus extends JavaPlugin {
 	public static ApiPlus getInstance() {
 		return instance;
 	}
-
+	
+	private void beginMobAPI() {
+		if(!customMobs) return;
+//		mManager = MobManager.getInstance();
+//		Bukkit.getPluginManager().registerEvents(new EntityReplacer(), getInstance());
+		Bukkit.getLogger().log(Level.INFO, "-------MobAPI Not Available-------");
+	}
+	
 	public boolean isMobAPI() {
 		return customMobs;
 	}
-
-
+	
+	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if(args.length == 1) {
 			Plugin plugin = Bukkit.getPluginManager().getPlugin(args[0]);
@@ -205,37 +266,5 @@ public class ApiPlus extends JavaPlugin {
 			return true;
 		}
 		return false;
-	}
-
-	public BlockManager getbManager() {
-		return bManager;
-	}
-
-	public void setbManager(BlockManager bManager) {
-		this.bManager = bManager;
-	}
-
-	public TypeManager gettManager() {
-		return tManager;
-	}
-
-	public void settManager(TypeManager tManager) {
-		this.tManager = tManager;
-	}
-
-	public EffectManager geteManager() {
-		return eManager;
-	}
-
-	public void seteManager(EffectManager eManager) {
-		this.eManager = eManager;
-	}
-
-	public ItemManager getiManager() {
-		return iManager;
-	}
-
-	public void setiManager(ItemManager iManager) {
-		this.iManager = iManager;
 	}
 }
